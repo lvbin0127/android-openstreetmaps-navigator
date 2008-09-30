@@ -81,7 +81,7 @@ So we have a long list of each osm node _<node>_ with the couple attribute _lat_
 		openStreetMap = new OpenStreetMap();
       }
 }}}
-  * Then, we start storing information writing method startElement(), that would call methods OpenStreetMap.setGenerator(String g) and OpenStreetMap.setVersion(String v)
+  * Then, we start storing information writing method *startElement()*, that would call methods OpenStreetMap.setGenerator(String g) and OpenStreetMap.setVersion(String v) when parser finds _<osm>_ tag
 {{{
   public void startElement  (String uri, String name, String qName, Attributes atts)throws   SAXException{
     	if (qName.equals ("osm")){
@@ -92,7 +92,30 @@ So we have a long list of each osm node _<node>_ with the couple attribute _lat_
     	return;
     	}
         /*
-        ... see next point
+        ... see next step
         */
   }
+}}}
+  * Then, other tags (we are writing the same methods startElement)
+{{{
+        if (qName.equals ("osm")){
+    		openStreetMap.setGenerator(atts.getValue("generator"));
+    		openStreetMap.setVersion(atts.getValue("version"));
+    	return;
+    	} else if (qName.equals("bounds")){
+    		openStreetMap.setMinlat(atts.getValue("minlat"));
+    		openStreetMap.setMaxlat(atts.getValue("maxlat"));
+    		openStreetMap.setMinlon(atts.getValue("minlon"));
+    		openStreetMap.setMaxlon(atts.getValue("maxlon"));
+    		
+    	return;
+    	} else if(qName.equals("node")){
+    		//increment node counter
+    		openStreetMap.addNode(atts.getValue("id"), atts.getValue("lat"),atts.getValue("lon"));// = OpenStreetMap.nodes + 1;
+    	return;	
+    	} else if(qName.equals("relation")){
+    		openStreetMap.addRelation();
+    		return;
+    	}
+        
 }}}
