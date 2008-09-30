@@ -3,9 +3,33 @@
 
 = Introduction =
 
-How to use SAX XML parser with [http://www.openstreetmap.org]OpenStreetMap _.osm_ xml-based format
+This page describes how to use SAX XML parser with [http://www.openstreetmap.org] OpenStreetMap _.osm_ xml-based format in _eclipse IDE_
 
 
 = Details =
 
-*SAX implementation*
+*SAX xml parsing*
+
+package: com.android.OsmNavigator
+java file: OsmFileReader.java
+
+public boolean parseStructure() throws ParserConfigurationException{
+    try{
+    // create the factory
+	           SAXParserFactory factory = SAXParserFactory.newInstance();
+	           // create a parser
+	           SAXParser parser = factory.newSAXParser();
+
+	           // create the reader (scanner)
+	           XMLReader xmlreader = parser.getXMLReader();
+	           // instantiate our handler
+	           osmHandler = new OsmHandler();
+	           // assign our handler
+	           xmlreader.setContentHandler(osmHandler);
+	           
+	           xmlInputStream = context.getResources().openRawResource(R.raw.milano);
+	           
+	           xmlreader.parse(new InputSource(xmlInputStream));
+	           
+    }
+}
