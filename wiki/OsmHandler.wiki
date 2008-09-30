@@ -53,7 +53,14 @@ Synopsis of our OsmHandler class
           */
           }
       }
-
+      
+      public void endElement(String uri, String name, String qName){{
+          if(qName.equals("way")){
+          /*
+          
+          */
+          }
+      }   
 
 
   }
