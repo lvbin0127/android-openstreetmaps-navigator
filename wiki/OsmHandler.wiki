@@ -3,20 +3,59 @@
 
 = Introduction =
 
-See [http://www.onjava.com/pub/a/onjava/2002/06/26/xml.html SAX parsing] in O'Reilly article to understand more
 
-However, our OsmHandler.java is a simple handler class that interprete xml data
+
+Our OsmHandler.java is a simple handler class that interprete xml data
 The SAX parser reads our xml file line by line and launch some default methods when it finds any opening tag like _<somecontent>_ and any closing tag like _</somecontents>_ or _/>_.
 We will simply write these methods.
+See [http://www.onjava.com/pub/a/onjava/2002/06/26/xml.html SAX parsing] in O'Reilly article to understand more about SAX parsing.
 
 == Class ==
 ----
 Synopsis of our OsmHandler class
 {{{
-package com.android.OsmNavigator;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
+  package com.android.OsmNavigator;
+  import org.xml.sax.Attributes;
+  import org.xml.sax.SAXException;
+  import org.xml.sax.helpers.DefaultHandler;
 
-public class OsmHandler extends DefaultHandler{
+  public class OsmHandler extends DefaultHandler{
+  
+      public OsmHandler (){
+          // simply this.
+          super();	
+      }  
+
+      public void startDocument (){
+          /* Called at the beginning. Parser has read only tag <?xml >
+             e.g., create a class instance
+ 
+             myosm = new OpenStreetMap();
+          
+             where we can store informations about how many nodes
+             there are or stuff like this
+          */
+      }
+      
+      public void endDocument (){
+          /*  Finished reading
+ 
+          */
+      }
+      
+      public void startElement  (String uri, String name, String qName, Attributes    atts)throws SAXException{
+          if(qName.equals("node")){
+          /* Called by parser when it finds opening tag <node>
+             e.g., 
+             
+             myosm.addSomeNodeLatitude(atts.getValue("lat"));
+            
+          */
+          }
+      }
+
+
+
+  }
+
 }}} 
