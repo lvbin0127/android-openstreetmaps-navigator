@@ -1,0 +1,38 @@
+#summary Something useful when handling Activities
+
+= Introduction =
+----
+Really know nothing about it 
+
+
+== setResult() method ==
+This method send back some data of the sub-activity to the main activity
+
+  * assign a clickListener to button in *onCreate(Bundle savedInstanceState)*
+{{{
+  CONFIRM = (Button)findViewById(R.id.ok);
+  CONFIRM.setOnClickListener(confirmListener);
+}}}
+  * code
+{{{
+  public class WaySelect extends Activity {
+    /*
+    ...
+    */
+    private View.OnClickListener confirmListener = new View.OnClickListener(){
+        public void onClick(View v) {
+            Bundle bundle = new Bundle();
+            
+            bundle.putString("tag", "titolo");
+            bundle.putString("lat","345667");
+        	
+            Intent mIntent = new Intent();
+            mIntent.putExtras(bundle);
+            
+            setResult(RESULT_OK, mIntent);
+        	
+            finish();
+        }
+    };
+}
+}}}
