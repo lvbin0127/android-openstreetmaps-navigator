@@ -36,3 +36,12 @@ This method send back some data of the sub-activity to the main activity
     };
 }
 }}}
+the method call *finish()*, and the screen point to main activity
+
+== Listening for sub-activity result ==
+----
+{{{
+protected void onActivityResult(int requestCode, int resultCode, Intent data){
+   //... do something
+}
+}}}
