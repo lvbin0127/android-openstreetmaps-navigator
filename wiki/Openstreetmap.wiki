@@ -23,8 +23,7 @@ The _file id resource_ is a easy and short way to access data and files. If our 
    InputStream xmlInputStream = context.getResources().openRawResource(R.raw.milano);
 }}}
 and you get your *java.io.InputStream*
-
-
+----
 
 ==reading _.osm_ file== 
 ----
