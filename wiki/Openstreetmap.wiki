@@ -67,6 +67,7 @@ and here sample code
   public boolean parseStructure() throws ParserConfigurationException{
   
     try{
+      /* 'standard' SAX way to parse xml*/
       // create the factory
       SAXParserFactory factory = SAXParserFactory.newInstance();
       
@@ -75,6 +76,8 @@ and here sample code
       
       // create the reader (scanner)
       XMLReader xmlreader = parser.getXMLReader();
+      
+      /* end 'standard' SAX way to parse xml*/
 
       // instantiate our handler
       osmHandler = new OsmHandler();
