@@ -38,6 +38,14 @@ the method call *finish()*, and the screen point to main activity
 ----
 {{{
 protected void onActivityResult(int requestCode, int resultCode, Intent data){
-   //... do something
+   Bundle result = data.getExtras();
+		
+		String tag = result.getString("tag");
+		String lat = result.getString("lat");
+		String lon = result.getString("lon");
 }
 }}}
+  * the method argument _requestCode_ identify the sub-activity committed
+  * _data_ refers to the *Intent* _mIntent_ created above.
+Thus, we can extract the data we stored in the *Bundle* _bundle_ before we finish the sub-activity.
+The Loop is now completed
