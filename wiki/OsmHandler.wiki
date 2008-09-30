@@ -149,5 +149,13 @@ So we have a long list of each osm node _<node>_ with the couple attribute _lat_
     	}
     } // finally, we close startElement()
 }}}
-
+  * Finally, we could write the method *endElement()*. When the _<way>_ tag is closed, the method OpenStreetMap.addWay(Way w) is called and the _way_ instance is pushed in the _ArrayList<Way>_  OpenStreetMap.ways
+{{{
+   public void endElement (String uri, String name, String qName){
+    	if(qName.equals("way")){
+    		
+    		openStreetMap.addWay(way);
+    		return;
+    	} 
+    }
 }}}
