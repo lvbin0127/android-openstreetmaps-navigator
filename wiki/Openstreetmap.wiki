@@ -9,7 +9,8 @@ This page describes how to use SAX XML parser with [http://www.openstreetmap.org
 = Details =
 
 
-==insert _.osm_ file into package structure== ----
+==insert _.osm_ file into package structure== 
+----
 
 Copy generic file _.osm_ (e.g., _maps.osm_) in project folder _res/raw_.
 
@@ -18,11 +19,12 @@ See Android tutorial [http://http://code.google.com/android/intro/hello-android.
 Automagically (or press F5) the *file id Resource* (an integer) referring to the xml file
 appears.
 
-----
+
 ==reading _.osm_ file== 
+----
 
 ==SAX xml parsing==
-
+----
 package: com.android.OsmNavigator
 java file: OsmFileReader.java
 
