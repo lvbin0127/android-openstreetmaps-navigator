@@ -81,3 +81,18 @@ So we have a long list of each osm node _<node>_ with the couple attribute _lat_
 		openStreetMap = new OpenStreetMap();
       }
 }}}
+  * Then, we start storing information
+{{{
+  public void startElement  (String uri, String name, String qName, Attributes atts)throws   SAXException{
+    	if (qName.equals ("osm")){
+    		openStreetMap.setGenerator(atts.getValue("generator"));
+    		openStreetMap.setVersion(atts.getValue("version"));
+    		
+    		
+    	return;
+    	}
+        /*
+        ... see next point
+        */
+  }
+}}}
