@@ -58,6 +58,7 @@ Here the main step:
   # read the InputStream
   # parse xml data
 
+and here sample code
 {{{
 // package: com.android.OsmNavigator
 // java file: OsmFileReader.java
