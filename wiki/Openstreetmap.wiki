@@ -7,7 +7,7 @@ This page describes how to use SAX XML parser with [http://www.openstreetmap.org
 
 
 = Details =
-
+#[insert insert .osm file]
 
 ==insert _.osm_ file into package structure== 
 ----
