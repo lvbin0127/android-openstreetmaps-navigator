@@ -30,19 +30,21 @@ and you get your *java.io.InputStream*
 Now is time to read something from our InputStream. Note that you should use a small sized osm file because the String we got would be too big to evaluate.
 SAX xml parsing will do the right way to obtain xml data.  
 {{{
-String xmlfile =""; // file content
-String exceptionString = "";
-try{
+  String xmlfile =""; // file content
+  String exceptionString = "";
+  
+  try{
     InputStream xmlInputStream = context.getResources().openRawResource(R.raw.milano); 
     
     int i=0;
     
     while((i=xmlInputStream.read())!=-1){
-	xmlfile +=(char)i;
-	}
-} catch(Exception e){
-    exceptionString  = e.getMessage();
-}
+        xmlfile +=(char)i;
+    }
+
+  } catch(Exception e){
+      exceptionString  = e.getMessage();
+  }
 }}}
 ==SAX xml parsing==
 ----
