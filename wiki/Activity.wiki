@@ -1,9 +1,5 @@
 #summary Something useful when handling Activities
-
-= Introduction =
-----
-Really know nothing about it 
-
+#labels Featured
 
 == setResult() method ==
 This method send back some data of the sub-activity to the main activity
