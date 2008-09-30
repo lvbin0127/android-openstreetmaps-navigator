@@ -72,4 +72,12 @@ Synopsis of our OsmHandler class
 
 An osm file has a structure like [http://wiki.openstreetmap.org/index.php/Data_Primitives this].
 So we have a long list of each osm node _<node>_ with the couple attribute _lat_ and _lon_, dealing with latitude and longitude of each *GPS survey*.
-  * First, we create an instance of a generic class OpenStreetMap that will store all the information about the osm file.
+  * First, we create an *instance* of a generic class OpenStreetMap that will store all the information about the osm file.
+{{{
+  OpenStreetMap openStreetMap;
+ 
+  public void startDocument ()
+      {
+		openStreetMap = new OpenStreetMap();
+      }
+}}}
