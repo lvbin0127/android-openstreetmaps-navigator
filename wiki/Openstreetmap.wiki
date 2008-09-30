@@ -23,15 +23,18 @@ The _file id resource_ is a easy and short way to access data and files. If our 
    InputStream xmlInputStream = context.getResources().openRawResource(R.raw.milano);
 }}}
 and you get your *java.io.InputStream*
-[br]
+
 
 ==reading _.osm_ file== 
 ----
-Now is time to read something from our InputStream. Note that you should use a small sized osm file because the String we got would be too big to evaluate.
+Now is time to read something from our InputStream. 
+Please note that you should use a *small sized* osm file because the String we got would be too big to evaluate.
+
 SAX xml parsing will do the right way to obtain xml data.  
 {{{
-  String xmlfile =""; // file content
-  String exceptionString = "";
+
+  String xmlfile =""; // contains file chars
+  String exceptionString = ""; // // contains message exception
   
   try{
     InputStream xmlInputStream = context.getResources().openRawResource(R.raw.milano); 
@@ -45,29 +48,44 @@ SAX xml parsing will do the right way to obtain xml data.
   } catch(Exception e){
       exceptionString  = e.getMessage();
   }
+
 }}}
+
 ==SAX xml parsing==
 ----
-package: com.android.OsmNavigator
-java file: OsmFileReader.java
-{{{
-public boolean parseStructure() throws ParserConfigurationException{
-    try{
-    // create the factory
-	           SAXParserFactory factory = SAXParserFactory.newInstance();
-	           // create a parser
-	           SAXParser parser = factory.newSAXParser();
+Here the main step:
+# create class that will interprete the xml flow (we called it OsmHandler)
+# read the InputStream
+# parse xml data
 
-	           // create the reader (scanner)
-	           XMLReader xmlreader = parser.getXMLReader();
-	           // instantiate our handler
-	           osmHandler = new OsmHandler();
-	           // assign our handler
-	           xmlreader.setContentHandler(osmHandler);
+{{{
+// package: com.android.OsmNavigator
+// java file: OsmFileReader.java
+// ... //
+
+  public boolean parseStructure() throws ParserConfigurationException{
+  
+    try{
+      // create the factory
+      SAXParserFactory factory = SAXParserFactory.newInstance();
+      
+      // create a parser
+      SAXParser parser = factory.newSAXParser();
+      
+      // create the reader (scanner)
+      XMLReader xmlreader = parser.getXMLReader();
+
+      // instantiate our handler
+      osmHandler = new OsmHandler();
+
+      // assign our handler
+      xmlreader.setContentHandler(osmHandler);
+	
+      // read from file           
+      xmlInputStream = context.getResources().openRawResource(R.raw.milano);
 	           
-	           xmlInputStream = context.getResources().openRawResource(R.raw.milano);
-	           
-	           xmlreader.parse(new InputSource(xmlInputStream));
+      // XMLReader parse() method
+      xmlreader.parse(new InputSource(xmlInputStream));
 	           
     }
 }
