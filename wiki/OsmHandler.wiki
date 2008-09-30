@@ -96,7 +96,7 @@ So we have a long list of each osm node _<node>_ with the couple attribute _lat_
         */
   }
 }}}
-  * Then, other tags (we are writing the same methods startElement)
+  * Then, other tags (we are writing the same methods *startElement()* )
 {{{
         if (qName.equals ("osm")){
     		openStreetMap.setGenerator(atts.getValue("generator"));
@@ -118,4 +118,30 @@ So we have a long list of each osm node _<node>_ with the couple attribute _lat_
     		return;
     	}
         
+}}}
+  * Now we would like to store information about _<way>_ tag. But _<way>_ is not like _<node>_, it has got child nodes like _<nd>_ and _<tag>_. Thus, in each Way instance, we would appreciate to find relates <nd> and <tag>. note that we are writing *startElement()* method again. 
+{{{
+    public void startElement( ... ){
+        /*
+        ...
+        else if(qName.equals("relation")){
+    		openStreetMap.addRelation();
+    		return;
+    	}
+        */ else if(qName.equals("way")){
+    		way = new Way(); // we create there a new 
+    		return;
+    	} else if(qName.equals("nd")){
+    		way.addNode(atts.getValue("ref"));
+    		return;
+    	} else if(qName.equals("tag")){
+    		tag = new Tag();
+    		tag.k = atts.getValue("k");
+    		tag.v = atts.getValue("v");
+    		if(way!=null)way.addTag(tag);
+    		return;
+    	}
+    } // finally, we close startElement()
+}}}
+
 }}}
