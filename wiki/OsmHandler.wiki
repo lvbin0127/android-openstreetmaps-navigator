@@ -72,7 +72,7 @@ Synopsis of our OsmHandler class
 
 An osm file has a structure like [http://wiki.openstreetmap.org/index.php/Data_Primitives this].
 So we have a long list of each osm node _<node>_ with the couple attribute _lat_ and _lon_, dealing with latitude and longitude of each *GPS survey*.
-  * First, we create an *instance* of a generic class OpenStreetMap that will store all the information about the osm file.
+  * First, we create an *instance* of a generic class OpenStreetMap that will store all the information about the osm file. We do this in method * startDocument()*
 {{{
   OpenStreetMap openStreetMap;
  
@@ -81,7 +81,7 @@ So we have a long list of each osm node _<node>_ with the couple attribute _lat_
 		openStreetMap = new OpenStreetMap();
       }
 }}}
-  * Then, we start storing information
+  * Then, we start storing information writing method startElement(), that would call methods OpenStreetMap.setGenerator(String g) and OpenStreetMap.setVersion(String v)
 {{{
   public void startElement  (String uri, String name, String qName, Attributes atts)throws   SAXException{
     	if (qName.equals ("osm")){
