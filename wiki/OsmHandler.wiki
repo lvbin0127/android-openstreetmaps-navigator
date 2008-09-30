@@ -10,7 +10,7 @@ The SAX parser reads our xml file line by line and launch some default methods w
 We will simply write these methods.
 See [http://www.onjava.com/pub/a/onjava/2002/06/26/xml.html SAX parsing] in O'Reilly article to understand more about SAX parsing.
 
-== Class ==
+== Basic class: what we should consider before beginning ==
 ----
 Synopsis of our OsmHandler class
 {{{
@@ -72,4 +72,3 @@ Synopsis of our OsmHandler class
 
 An osm file has a structure like [http://wiki.openstreetmap.org/index.php/Data_Primitives this].
 So we have a long list of each osm node _<node>_ with the couple attribute _lat_ and _lon_, dealing with latitude and longitude.
-
