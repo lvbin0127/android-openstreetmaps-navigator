@@ -66,3 +66,10 @@ Synopsis of our OsmHandler class
   }
 
 }}} 
+
+== Our data manipuation ==
+----
+
+An osm file has a structure like [http://wiki.openstreetmap.org/index.php/Data_Primitives this].
+So we have a long list of each osm node _<node>_ with the couple attribute _lat_ and _lon_, dealing with latitude and longitude.
+
