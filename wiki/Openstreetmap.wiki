@@ -3,7 +3,7 @@
 
 = Introduction =
 
-How to use SAX XML parser with OpenStreetMap _.osm_ xml-based format
+How to use SAX XML parser with [http://www.openstreetmap.org]OpenStreetMap _.osm_ xml-based format
 
 
 = Details =
