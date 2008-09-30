@@ -20,6 +20,7 @@ Automagically (or press F5) the *file id Resource* (an integer) referring to the
 appears.
 
 
+
 ==reading _.osm_ file== 
 ----
 
@@ -27,7 +28,7 @@ appears.
 ----
 package: com.android.OsmNavigator
 java file: OsmFileReader.java
-
+{{{
 public boolean parseStructure() throws ParserConfigurationException{
     try{
     // create the factory
@@ -48,3 +49,5 @@ public boolean parseStructure() throws ParserConfigurationException{
 	           
     }
 }
+
+}}}
