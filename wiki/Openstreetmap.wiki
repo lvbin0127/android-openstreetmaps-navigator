@@ -3,7 +3,7 @@
 
 = Introduction =
 
-This page describes how to use SAX XML parser with [http://www.openstreetmap.org] OpenStreetMap _.osm_ xml-based format in _eclipse IDE_.
+This page describes how to use SAX XML parser with [http://www.openstreetmap.org OpenStreetMap] _.osm_ xml-based format in _eclipse IDE_.
 
 
 = Details =
