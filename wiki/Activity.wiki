@@ -37,13 +37,19 @@ the method call *finish()*, and the screen point to main activity
 == Listening for sub-activity result ==
 ----
 {{{
-protected void onActivityResult(int requestCode, int resultCode, Intent data){
-   Bundle result = data.getExtras();
+  protected void onActivityResult(int requestCode, int resultCode, Intent data){
+   
+    /*
+    ... control the sub-activity checking the requestCode and the resultCode
+    */
+ 
+    Bundle result = data.getExtras();
+    
+    /* recover the bundle */
+		String tag = result.getString("tag"); // return 'titolo'
+		String lat = result.getString("lat"); // return '345667'
 		
-		String tag = result.getString("tag");
-		String lat = result.getString("lat");
-		String lon = result.getString("lon");
-}
+  }
 }}}
   * the method argument _requestCode_ identify the sub-activity committed
   * _data_ refers to the *Intent* _mIntent_ created above.
