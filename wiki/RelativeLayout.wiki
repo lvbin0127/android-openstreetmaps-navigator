@@ -1,0 +1,5 @@
+#summary Relative Layout
+#labels Featured
+
+== Alignment ==
+[http://code.google.com/android/reference/android/widget/RelativeLayout.LayoutParams.html Layout Params: alignment]
