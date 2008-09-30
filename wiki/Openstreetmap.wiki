@@ -12,18 +12,39 @@ This page describes how to use SAX XML parser with [http://www.openstreetmap.org
 ==insert _.osm_ file into package structure== 
 ----
 
-Copy generic file _.osm_ (e.g., _maps.osm_) in project folder _res/raw_.
+Copy generic file _.osm_ (in our code, _milano.osm_) in project folder _res/raw_.
 
 See Android tutorial [http://http://code.google.com/android/intro/hello-android.html] to understand such a structure.
 
-Automagically (or press F5) the *file id Resource* (an integer) referring to the xml file
-appears.
+Automagically (or press F5) the _file id Resource_ (an integer value) referring to the xml file appears in file *R.java*. Don't care about this file, Eclipse IDE will do it for you.
+
+The _file id resource_ is a easy and short way to access data and files. If our file is stored under _res/raw_ the code is simply this:
+{{{
+   InputStream xmlInputStream = context.getResources().openRawResource(R.raw.milano);
+}}}
+and you get your *java.io.InputStream*
 
 
 
 ==reading _.osm_ file== 
 ----
-
+Now is time to read something from our InputStream. Note that you should use a small sized osm file because the String we got would be too big to evaluate.
+SAX xml parsing will do the right way to obtain xml data.  
+{{{
+String xmlfile =""; // file content
+String exceptionString = "";
+try{
+    InputStream xmlInputStream = context.getResources().openRawResource(R.raw.milano); 
+    
+    int i=0;
+    
+    while((i=xmlInputStream.read())!=-1){
+	xmlfile +=(char)i;
+	}
+} catch(Exception e){
+    exceptionString  = e.getMessage();
+}
+}}}
 ==SAX xml parsing==
 ----
 package: com.android.OsmNavigator
