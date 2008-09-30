@@ -7,7 +7,7 @@ This page describes how to use SAX XML parser with [http://www.openstreetmap.org
 
 
 = Details =
-#[insert insert .osm file]
+  #[insert insert .osm file]
 
 ==insert _.osm_ file into package structure== 
 ----
@@ -54,9 +54,9 @@ SAX xml parsing will do the right way to obtain xml data.
 ==SAX xml parsing==
 ----
 Here the main step:
-# create class that will interprete the xml flow (we called it OsmHandler)
-# read the InputStream
-# parse xml data
+  # create class that will interprete the xml flow (we called it OsmHandler)
+  # read the InputStream
+  # parse xml data
 
 {{{
 // package: com.android.OsmNavigator
