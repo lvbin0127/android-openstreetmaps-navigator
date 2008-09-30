@@ -5,10 +5,18 @@
 
 See [http://www.onjava.com/pub/a/onjava/2002/06/26/xml.html SAX parsing] in O'Reilly article to understand more
 
+However, our OsmHandler.java is a simple handler class that interprete xml data
+The SAX parser reads our xml file line by line and launch some default methods when it finds any opening tag like _<somecontent>_ and any closing tag like _</somecontents>_ or _/>_.
+We will simply write these methods.
 
-= Details =
+== Class ==
+----
+Synopsis of our OsmHandler class
+{{{
+package com.android.OsmNavigator;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+public class OsmHandler extends DefaultHandler{
+}}} 
