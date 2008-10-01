@@ -6,9 +6,19 @@ Main activity, as you can see in ECLIPSE, is defined in class OsmReader.java
   * OsmNavigator
     * src
       * com.android.osmNavigator
-
-
-     src
-       com.android.OsmNavigator
-         Node.java                // store info about latitude and longitude, tags and ID of <node>
-         OpenStreetMap.java  
+        # _Node.java_, stuff about osm format _<node>_ (id, lat, lon, _<tag>_)
+        # _OpenStreetMap.java_
+        # _OsmFileReader.java_
+        # _OsmHandler.java_
+        # _OsmReader.java_
+        # _Tag.java_
+        # _Way.java_
+        # _WaySelect.java_
+        
+    * res
+      * _drawable_ [png logo and menu]
+      * _layout_, android xml layout descriptor, see    [http://code.google.com/android/devel/ui/xml.html Android docs]
+      * raw 
+      * values
+      
+    
