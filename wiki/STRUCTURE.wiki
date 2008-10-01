@@ -1,0 +1,11 @@
+#summary Main topics and introduction to our work
+
+== Structure ==
+Main activity, as you can see in ECLIPSE
+{{{
+   OsmNavigator
+     src
+       com.android.OsmNavigator
+         Node.java                // store info about latitude and longitude, tags and ID of <node>
+         OpenStreetMap.java 
+}}}
