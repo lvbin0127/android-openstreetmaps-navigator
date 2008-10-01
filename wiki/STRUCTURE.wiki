@@ -2,6 +2,7 @@
 #labels Featured
 
 == Structure ==
+----
 Main activity, as you can see in ECLIPSE, is defined in class OsmReader.java
 
   * OsmNavigator
@@ -12,13 +13,16 @@ Main activity, as you can see in ECLIPSE, is defined in class OsmReader.java
         # _OsmFileReader.java_
         # _OsmHandler.java_
         # _OsmReader.java_
-        # _Tag.java_
+        # _Tag.java_, store osm attributes "keys" and "values" in _<tag>_
         # _Way.java_
-        # _WaySelect.java_
+        # _WaySelect.java_, sub_activity
+== Resources ==
+----
+  * OsmNavigator
     * res
-      * _drawable_ [png logo and menu]
+      * _drawable_, contains .png images, logo and menu images
       * _layout_, android xml layout descriptor, see    [http://code.google.com/android/devel/ui/xml.html Android docs]
-      * raw 
-      * values
+      * _raw_, would contains OSM files 
+      * _values_, contains colors.xml descriptor
       
     
