@@ -1,7 +1,7 @@
 #summary Main topics and introduction to our work
 #labels Featured
 
-== Structure ==
+== Package ==
 ----
 Main activity, as you can see in ECLIPSE, is defined in class OsmReader.java
 
