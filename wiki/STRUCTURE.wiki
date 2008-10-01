@@ -27,4 +27,5 @@ Main activity, as you can see in ECLIPSE, is defined in class OsmReader.java
       
 == UI Layout ==
 ----
-For a graphical view of WIDGET, see [http://www.droiddraw.org/widgetguide.html]    
+For a graphical view of *WIDGET*, see [http://www.droiddraw.org/widgetguide.html]    
+FOr info about *RelativeLayout*, see [http://code.google.com/android/reference/android/widget/RelativeLayout.LayoutParams.html  RelativeLayout.LayoutParams]
