@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background = "@drawable/lightgrey"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+<TextView  android:id="@+id/title"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="Cerca"
+    android:textColor = "@color/nero"
+    />
+    <EditText android:id="@+id/editSearchtag"
+        android:layout_below="@id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft = "5sp"
+        android:layout_marginTop = "5sp"
+        android:layout_marginRight = "5sp"
+    />
+     <Button android:id="@+id/ok" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            
+            android:layout_alignParentRight="false"
+            android:layout_marginLeft="10px"
+            android:text="OK"
+            android:layout_below="@id/editSearchtag" />
+     <Button android:id="@+id/back" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10px"
+            android:text="back"
+            android:layout_below="@id/editSearchtag" />       
+     <TextView  android:id="@+id/resultsSearchTag"
+		    android:layout_width="fill_parent" 
+		    android:layout_height="wrap_content" 
+		    android:text="Risultati"
+		    android:textColor = "@color/nero"
+		    android:layout_marginLeft="10px"
+		    android:layout_marginTop="10px"
+		    android:layout_below = "@id/back"
+     />
+</RelativeLayout>

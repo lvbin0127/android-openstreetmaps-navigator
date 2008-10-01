@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/grey"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    
+    <TextView  android:id="@+id/title"
+        android:drawSelectorOnTop="true"
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" 
+        android:text="@string/hello"
+        android:layout_centerInParent="true"
+    />
+    
+    <Button android:id="@+id/ok" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:layout_alignParentRight="false"
+        android:text="Load Map" 
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10sp"
+    />
+    
+    
+<TextView  android:id="@+id/mapinfo"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:visible = "false"
+    android:text="@string/hello"
+    />  
+    <ImageView android:id="@+id/backgroundImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src ="@drawable/icon2"
+    />
+</RelativeLayout >
