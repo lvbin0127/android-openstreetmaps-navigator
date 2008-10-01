@@ -25,4 +25,6 @@ Main activity, as you can see in ECLIPSE, is defined in class OsmReader.java
       * _raw_, would contains OSM files 
       * _values_, contains colors.xml descriptor
       
-    
+== UI Layout ==
+----
+For a graphical view of WIDGET, see [http://www.droiddraw.org/widgetguide.html]    
