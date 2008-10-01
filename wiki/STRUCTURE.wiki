@@ -1,4 +1,5 @@
 #summary Main topics and introduction to our work
+#labels Featured
 
 == Structure ==
 Main activity, as you can see in ECLIPSE, is defined in class OsmReader.java
@@ -14,7 +15,6 @@ Main activity, as you can see in ECLIPSE, is defined in class OsmReader.java
         # _Tag.java_
         # _Way.java_
         # _WaySelect.java_
-        
     * res
       * _drawable_ [png logo and menu]
       * _layout_, android xml layout descriptor, see    [http://code.google.com/android/devel/ui/xml.html Android docs]
