@@ -1,11 +1,14 @@
 #summary Main topics and introduction to our work
 
 == Structure ==
-Main activity, as you can see in ECLIPSE
-{{{
-   OsmNavigator
+Main activity, as you can see in ECLIPSE, is defined in class OsmReader.java
+
+  * OsmNavigator
+    * src
+      * com.android.osmNavigator
+
+
      src
        com.android.OsmNavigator
          Node.java                // store info about latitude and longitude, tags and ID of <node>
-         OpenStreetMap.java 
-}}}
+         OpenStreetMap.java  
