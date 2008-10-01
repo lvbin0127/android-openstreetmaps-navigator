@@ -1,0 +1,21 @@
+#summary Sub-activity: finding and selecting places
+
+== Structure ==
+----
+The user interface presents:
+  * a [http://code.google.com/android/reference/android/widget/EditText.html Widget.EditText] editable text field
+  * an OK [http://code.google.com/android/reference/android/widget/Button.html Widget.Button] and a BACK button
+
+== Activity reponse ==
+----
+Pressing OK or BACK button makes this activity finish. The _on click handlers_ methods are these
+{{{
+  private View.OnClickListener confirmListener = new View.OnClickListener(){
+    public void onClick(View v) {
+    /*...*/
+    }
+  }
+
+}}}
+
+
