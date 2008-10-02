@@ -1,0 +1,15 @@
+#summary GPS reading and computing angles and distance
+
+= Introduction =
+
+GPS usage in Android, see [http://code.google.com/android/toolbox/apis/lbs.html LocationManager API]
+`
+`
+Here a *to-do-list*
+  * set the environment. Open a CMD (prompt), point to android dir location where you can find tools subdir. (es, D:\android\tools)
+  * write command *ddms*
+{{{
+D:\android\tools>ddms
+}}}
+  * download a _.klm_ file (gps tracking), one is at [ this link]
+
