@@ -22,7 +22,7 @@ D:\android\tools>ddms
 <uses-permission 
    android:name="android.permission.ACCESS_FINE_LOCATION" />
     }}}
-  # code the activity to use _LocationManager_
+  # code the activity to use _LocationManager_ 
     * obtain the LOCATION_SERVICE service and init it. Note that the method LocationManager.requestLocationUpdates(..) require a Listener. We'll code it next step.
     {{{
     /* obtain the SERVICE */
@@ -48,7 +48,5 @@ D:\android\tools>ddms
     }  
     }}}
     * setting up the _Listener_
-
-
 
 
