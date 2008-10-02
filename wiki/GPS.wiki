@@ -1,13 +1,18 @@
 #summary GPS reading and computing angles and distance
+#labels Featured
 
 = Introduction =
-
+----
 GPS usage in Android, see [http://code.google.com/android/toolbox/apis/lbs.html LocationManager API]
 == ==
 Here a *to-do-list*
-  * set the environment. Open a CMD (prompt), point to android dir location where you can find tools subdir. (es, D:\android\tools)
+# creating a *MOCK GPS TRACKER*
+  * set the environment. Open a CMD (prompt), point to android dir location where you can find tools subdir. (es, D:\android\tools). A _Dalvik Debug monitor_ is now open.
   * write command *ddms*
 {{{
 D:\android\tools>ddms
 }}}
-  * download a _.klm_ file (gps tracking), one is at [http://groups.google.com/group/android-developers/files this link, geo_sample_data.zip]
+   
+  * download a _.klm_ file (gps tracking), one is at [http://groups.google.com/group/android-developers/files this link, geo_sample_data.zip
+  * In _Dalvik Debug monitor_ go to _emulator control_; then in this tab click on _Location Controls_ -> klm -> Load Klm an browse to your klm file
+  * When you need GPS, click on play button located at the bottom of this window
