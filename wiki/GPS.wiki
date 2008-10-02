@@ -6,20 +6,20 @@
 GPS usage in Android, see [http://code.google.com/android/toolbox/apis/lbs.html LocationManager API]
 == ==
 Here a *to-do-list*
-  # open an useful android tool, *Dalvik Debug monitor*
+  === open an useful android tool, *Dalvik Debug monitor ===
     * set the environment. Open a CMD (prompt), point to android dir location where you can find tools subdir. (es, D:\android\tools). A _Dalvik Debug monitor_ is now open. [http://code.google.com/android/reference/ddms.html#emulator-control more about this tool here]
     * write command *ddms*
 {{{
 D:\android\tools>ddms
 }}}
-
-  == setting up a *MOCK GPS TRACKER* ==
+  == ==
+  === setting up a *MOCK GPS TRACKER* ===
   ----
     * download a _.klm_ file (gps tracking), one is at [http://groups.google.com/group/android-developers/files this link, geo_sample_data.zip]
     * In _Dalvik Debug monitor_ go to _emulator control_; then in this tab click on _Location Controls_ -> klm -> Load Klm an browse to your klm file
     * When you need GPS, click on play button located at the bottom of this window
   == ==
-  == setting up *permissions* ==
+  === setting up *permissions* ===
   ----
     *  add the _ACCESS_FINE_LOCATION_ permission to the _AndroidManifest.xml_ file, like [http://www.devx.com/wireless/Article/39239/1954?pf=true here], before any _<application>_
     {{{
@@ -27,7 +27,7 @@ D:\android\tools>ddms
    android:name="android.permission.ACCESS_FINE_LOCATION" />
     }}}
   == ==
-  == code the activity to use _LocationManager_ ==
+  === code the activity to use LocationManager ===
   ---- 
     * obtain the LOCATION_SERVICE service and init it. Note that the method LocationManager.requestLocationUpdates(..) require a Listener. We'll code it next step.
     {{{
