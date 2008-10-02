@@ -83,5 +83,11 @@ D:\android\tools>ddms
 		
 	};
     }}}
+= =
+= GPS.java handles Location, distance, angles =
+----
+GPS.java class uses Harvestine algorithm to calculate air-distances, waiting for some routing algorithm.
+
+
 
 
