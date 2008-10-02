@@ -6,7 +6,7 @@
 GPS usage in Android, see [http://code.google.com/android/toolbox/apis/lbs.html LocationManager API]
 == ==
 Here a *to-do-list*
-  === open an useful android tool, *Dalvik Debug monitor ===
+  === open an useful android tool, *Dalvik Debug monitor* ===
     * set the environment. Open a CMD (prompt), point to android dir location where you can find tools subdir. (es, D:\android\tools). A _Dalvik Debug monitor_ is now open. [http://code.google.com/android/reference/ddms.html#emulator-control more about this tool here]
     * write command *ddms*
 {{{
@@ -27,7 +27,7 @@ D:\android\tools>ddms
    android:name="android.permission.ACCESS_FINE_LOCATION" />
     }}}
   == ==
-  === code the activity to use LocationManager ===
+  === code the activity to use the Location Manager ===
   ---- 
     * obtain the LOCATION_SERVICE service and init it. Note that the method LocationManager.requestLocationUpdates(..) require a Listener. We'll code it next step.
     {{{
