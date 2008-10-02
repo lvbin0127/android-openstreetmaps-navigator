@@ -21,13 +21,13 @@ D:\android\tools>ddms
   == ==
   === setting up *permissions* ===
   ----
-    *  add the _ACCESS_FINE_LOCATION_ permission to the _AndroidManifest.xml_ file, like [http://www.devx.com/wireless/Article/39239/1954?pf=true here], before any _<application>_
+    *  add the _ACCESS_FINE_LOCATION_ permission to the _AndroidManifest.xml_ file, like [http://www.devx.com/wireless/Article/39239/1954?pf=true here], before any _<application>_  tag
     {{{
 <uses-permission 
    android:name="android.permission.ACCESS_FINE_LOCATION" />
     }}}
   == ==
-  === code the activity to use the Location Manager ===
+  === code the activity to use the *Location Manager* ===
   ---- 
     * obtain the LOCATION_SERVICE service and init it. Note that the method LocationManager.requestLocationUpdates(..) require a Listener. We'll code it next step.
     {{{
@@ -53,4 +53,35 @@ D:\android\tools>ddms
         }
     }  
     }}}
-    * setting up the _Listener_
+    * setting up the _Listener_, somewhere in activity class
+    {{{
+    private LocationListener mLocationListener = new LocationListener(){
+
+		@Override
+		public void onLocationChanged(Location location) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onProviderDisabled(String provider) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onProviderEnabled(String provider) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	};
+    }}}
+
+
