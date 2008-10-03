@@ -15,11 +15,69 @@ public class OpenStreetMap {
 	ArrayList<Node> nodes = new ArrayList<Node>();
 	ArrayList<Way> ways = new ArrayList<Way>();
 	
+	public static String separator="__";
+	
 	public void drawNodes(){
 		
 	}
+	public Node getNode(String _id){
+		for(int i = 0; i < nodes.size(); i++){
+			if(nodes.get(i).id.equals(_id)){
+				return nodes.get(i);
+			}
+		}
+		return null;
+	}
+	public String[] searchNode(String pattern){
+		String coordinates[] = new String[2];
+		// individuate origin -w- or -n-
+		
+		
+		Way w;
+		Node n;
+		coordinates[0] = ""+0.0;
+		coordinates[1] = ""+0.0;
+		for(int i = 0; i < ways.size();i++){
+			w = ways.get(i);
+			
+			for(int j = 0; j < w.tags.size(); j++){
+				
+				if(w.tags.get(j).k.equals("name") && w.tags.get(j).v.equals(pattern)){
+					// prendi il primo punto che trovi, non è sengato, ovviamente, dal numero civico
+					n = getNode(w.nd.get(0));
+										
+					if(n != null){
+					  coordinates[0] = ""+n.lat;//Double.parseDouble(n.lat);
+					  coordinates[1] = ""+n.lon;//Double.parseDouble(n.lon);
+					} else {
+						coordinates[0] = "Nodo non trovato";
+						coordinates[1] = w.nd.get(0);//""+Double.parseDouble(w.nd.get(0));
+					}
+					return coordinates;
+					
+					
+				}
+				
+			}
+		}
+		for(int ii = 0; ii < nodes.size();ii++){
+			n = nodes.get(ii);
+			
+			for(int jj = 0; jj < n.tags.size(); jj++){
+				//eepContent += w.tags.get(j).k +"\n";
+				if(n.tags.get(jj).k.equals("name") && n.tags.get(jj).v.equals(pattern)){
+					coordinates[0] = ""+n.lat;
+					coordinates[1] = ""+n.lon;
+					return coordinates;
+				} 
+			}
+		}
+		return coordinates;
+		
+	}
 	public String generateTagString(){
-		String separator="__";
+		
+		
 		String deepContent = "";
 		Way w;
 		Node n;
@@ -29,7 +87,7 @@ public class OpenStreetMap {
 			for(int j = 0; j < w.tags.size(); j++){
 				
 				if(w.tags.get(j).k.equals("name") || w.tags.get(j).k.equals("amenity")){
-					deepContent += separator + w.tags.get(j).v;
+					deepContent += separator + w.tags.get(j).v + "-w-";
 				} else continue;
 			}
 		}
@@ -39,7 +97,7 @@ public class OpenStreetMap {
 			for(int jj = 0; jj < n.tags.size(); jj++){
 				//eepContent += w.tags.get(j).k +"\n";
 				if(n.tags.get(jj).k.equals("name")){
-					deepContent += separator + n.tags.get(jj).v;
+					deepContent += separator + n.tags.get(jj).v + "-n-";
 					//deepContent += separator + w.tags.get(j).v;
 				} else continue;
 			}

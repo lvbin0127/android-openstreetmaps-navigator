@@ -44,7 +44,9 @@ public class OsmHandler extends DefaultHandler{
     	} else if(qName.equals("node")){
     		//increment node counter
     		node = new Node();
-    	    
+    	    node.lat = atts.getValue("lat");
+    	    node.id =atts.getValue("id");
+    	    node.lon = atts.getValue("lon");
     		return;	
     	} else if(qName.equals("relation")){
     		openStreetMap.addRelation();

@@ -19,23 +19,25 @@ public final class R {
         public static final int verde_oliva=0x7f060002;
     }
     public static final class drawable {
-        public static final int blue=0x7f020000;
-        public static final int grey=0x7f020001;
-        public static final int icon=0x7f020002;
-        public static final int icon2=0x7f020003;
-        public static final int lightgrey=0x7f020004;
-        public static final int menu_mapinfo=0x7f020005;
-        public static final int menu_percorsi=0x7f020006;
-        public static final int menu_pexit=0x7f020007;
+        public static final int background_image=0x7f020000;
+        public static final int blue=0x7f020001;
+        public static final int driving=0x7f020002;
+        public static final int grey=0x7f020003;
+        public static final int icon=0x7f020004;
+        public static final int icon2=0x7f020005;
+        public static final int lightgrey=0x7f020006;
+        public static final int menu_mapinfo=0x7f020007;
+        public static final int menu_percorsi=0x7f020008;
+        public static final int menu_pexit=0x7f020009;
     }
     public static final class id {
         public static final int back=0x7f080005;
-        public static final int backgroundImage=0x7f080003;
+        public static final int backgroundImage=0x7f080000;
         public static final int editSearchtag=0x7f080004;
-        public static final int mapinfo=0x7f080002;
-        public static final int ok=0x7f080001;
+        public static final int mapinfo=0x7f080003;
+        public static final int ok=0x7f080002;
         public static final int resultsSearchTag=0x7f080006;
-        public static final int title=0x7f080000;
+        public static final int title=0x7f080001;
     }
     public static final class layout {
         public static final int main=0x7f030000;
