@@ -4,6 +4,8 @@ package com.android.OsmNavigator;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +21,8 @@ public class WaySelect extends Activity {
 	private EditText searchEditText;
 	private Button CONFIRM, BACK;
 	private Bundle intentBundle;
+	private ArrayList<Integer> results;
+	private String[] matches;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,22 +47,35 @@ public class WaySelect extends Activity {
         
         intentBundle = getIntent().getExtras();
         resultsSearchTag.setText("Total records: " + intentBundle.getString("hashstring").split("__").length);
+        
+        simpleAlertDialog = new AlertDialog.Builder(this);
+        
+        results = new ArrayList<Integer>();
     }
     
     public void search(String pattern){
-    	String[] matches =  intentBundle.getString("hashstring").toLowerCase().split("__");
-    	ArrayList<Integer> results = new ArrayList<Integer>();
+    	// reset arraylist
+    	results.clear();
+    	
+    	matches = intentBundle.getString("hashstring").split("__");
+    	
     	
     	for(int m = 0; m < matches.length; m++){
-    		if(matches[m].contains( pattern.toLowerCase() ) ){
+    		if(matches[m].toLowerCase().contains( pattern.toLowerCase().trim() ) ){
     			results.add(m);	
     		}
     	}
     	String resultsReport = "Currently " + results.size() + " matches";
-    	
+    	String rrp = "";
     	if(results.size()<16 && results.size()>0){
     	  for(int c = 0; c < results.size(); c++){
-    		  resultsReport += "\n"+ matches[results.get(c)];
+    		  // remove tags
+    		  if(matches[results.get(c)].lastIndexOf("-w-") != -1){
+    		      rrp = matches[results.get(c)].substring(0,matches[results.get(c)].lastIndexOf("-w-"));
+    		  } else {
+    			  rrp = matches[results.get(c)].substring(0,matches[results.get(c)].lastIndexOf("-n-"));
+    		  }
+    		  resultsReport += "\n"+ rrp;
     	  }	
     	} 
     	
@@ -70,23 +87,30 @@ public class WaySelect extends Activity {
     }
     private View.OnClickListener confirmListener = new View.OnClickListener(){
         public void onClick(View v) {
-        	Bundle bundle = new Bundle();
-            
-        	bundle.putString("tag", searchEditText.getText().toString());
-        	bundle.putString("lat","345667");
         	
-        	Intent mIntent = new Intent();
-        	mIntent.putExtras(bundle);
-        	setResult(RESULT_OK, mIntent);
-        	
-            finish();
+        	if(results.size() == 1 ){
+	        	Bundle bundle = new Bundle();
+	            
+	        	
+	        	bundle.putString("tag", matches[results.get(0)] );
+	        	bundle.putString("lat","345667");
+	        	
+	        	Intent mIntent = new Intent();
+	        	mIntent.putExtras(bundle);
+	        	
+	        	
+	        	setResult(RESULT_OK, mIntent);
+	        	
+	            finish();
+        	} else {
+        		showSimpleAlertDialog("Attenzione","Selezionare un unico indirizzo");
+        	}
         }
     };
     private View.OnClickListener backListener = new View.OnClickListener(){
         public void onClick(View v){
             setResult(RESULT_CANCELED);
-        	
-            finish();
+        	finish();
         }
         
     };
@@ -116,4 +140,24 @@ public class WaySelect extends Activity {
 		}
 		
     };
+    public AlertDialog.Builder simpleAlertDialog;
+    
+    public void showSimpleAlertDialog(String title, String message){
+		simpleAlertDialog.setMessage(message);
+		simpleAlertDialog.setTitle(title);
+		simpleAlertDialog.setCancelable(true);
+		simpleAlertDialog.setPositiveButton("OK",onSimpleAlertListener);
+		simpleAlertDialog.show();
+        
+	}
+    private DialogInterface.OnClickListener onSimpleAlertListener = new DialogInterface.OnClickListener(){
+		
+
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			// TODO Auto-generated method stub
+			// cancellazione del dialogo, accettazione
+			// auto accettazione msgTextView.setText("Something");
+		}
+	};
 }

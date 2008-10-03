@@ -1,15 +1,42 @@
 package com.android.OsmNavigator;
 
 import android.location.Location;
+import android.os.Handler;
+import android.os.Message;
+
 
 public class GPS {
 	public Location location = new Location("gps");
 	public Location target = new Location("gps");
+	public static int LOCATION_UPDATED = 1;
 	private int Radius = 6371000;
 	
-	public GPS(){
+	private Thread mockLocationUpdate = null; 
+	private Handler locationUpdater;
+	
+	private double mockLocations[][] = {
+			{8.653986,49.472767},
+			{9.670434,49.449615},
+			{18.654018,49.472752},
+			{38.653986,49.472767}
+	};
+	private int mockLocationsPointer = 0;
+	
+	public GPS(Handler _locationUpdater){
 		location.setLatitude(45.4722635);
 		location.setLongitude(9.1875991);
+		
+		
+		locationUpdater = _locationUpdater;
+		
+		mockLocationUpdate = new Thread(new locationUpdating()); 
+		 
+	}
+	public void startLocationUpdater(){
+		mockLocationUpdate.start();
+	}
+	public void stopLocationUpdater(){
+		Thread.currentThread().interrupt();
 	}
 	public void setActualLocation(double latitude, double longitude){
 		location.setLatitude(latitude);
@@ -38,4 +65,28 @@ public class GPS {
    private double radians(double n) {
   	  return n * Math.PI / 180;
    }
+   
+   class locationUpdating implements Runnable{ 
+       // @Override 
+       public void run() { 
+            while(!Thread.currentThread().isInterrupted()){
+            	Message m = new Message();
+            	m.what = LOCATION_UPDATED;
+            	// update location with strings
+            	mockLocationsPointer++;
+            	if(mockLocationsPointer > mockLocations.length - 1){
+            		mockLocationsPointer = 0;
+            	}
+            	setActualLocation(mockLocations[mockLocationsPointer][0],mockLocations[mockLocationsPointer][1] );
+            	
+            	locationUpdater.sendMessage(m);
+                
+            	try { 
+                      Thread.sleep(1000); 
+                 } catch (InterruptedException e) { 
+                      Thread.currentThread().interrupt(); 
+                 } 
+            } 
+       } 
+ } 
 }

@@ -1,7 +1,5 @@
 package com.android.OsmNavigator;
 
-import java.util.Timer;
-
 import android.app.Activity;
 
 import android.app.AlertDialog;
@@ -14,18 +12,14 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.*;
 
 import android.widget.*;
 import android.graphics.*;
 
 
-public class OsmReader extends Activity {
+public class CopyOfOsmReader extends Activity {
 	
 	public static final int ACTIVITY_ADD=0;
 	
@@ -55,17 +49,11 @@ public class OsmReader extends Activity {
 	private  Path path = new Path();
 	
 	/* GPS reading */
-	private GPS gps;
-	private LocationManager lm;
-	private Handler mockLocationUpdater = new Handler(){
-		
-		public void handleMessage(Message m){
-			showToast(gps.location.toString());
-			lm.setTestProviderLocation(LocationManager.GPS_PROVIDER, gps.location);
-		}
-    }; 
-    
-	private static final String LOG_TAG = "Location Service";
+	GPSReader gps = new GPSReader();
+	//http://www.movable-type.co.uk/scripts/latlong.html
+	
+	private static final String PROVIDER_NAME = LocationManager.GPS_PROVIDER;
+    private static final String LOG_TAG = "Location Service";
     private LocationListener mLocationListener;
 	
     /* 
@@ -136,12 +124,7 @@ public class OsmReader extends Activity {
         CONTINUEbtn.setOnClickListener( mCorkyListener);
         
         /* init GPS reading */
-        gps = new GPS(mockLocationUpdater);
-        
-        
         initLocation();
-        
-        
     }
 	@Override
     protected void onDestroy() {
@@ -151,9 +134,6 @@ public class OsmReader extends Activity {
 	
 	private void parsingOpenStreetMap(){
 		try{
-			Toast.makeText(getBaseContext(), 
-                    "Parsing OSM map data", 
-                    20).show();
     		if(OSM.parseStructure() == false){
     		  showSimpleAlertDialog("Parsing OSM data", OSM.IOError + "\n" + OSM.SAXError);
     		} else {
@@ -161,8 +141,7 @@ public class OsmReader extends Activity {
     			// show handling
     			OSM.setMessageHandler(msgTextView);
     			mapParsed = true;
-    			msgTextView.setText("Location: " + gps.location.getLatitude() + ", " + gps.location.getLongitude());
-    			
+    			msgTextView.setText("Map loaded");
     			CONTINUEbtn.setVisibility(View.INVISIBLE);
     			//MapInformation.setText(OSM.osmHandler.openStreetMap.getXML());
     			//msgTextView.setText(OSM.osmHandler.openStreetMap.getXML());
@@ -188,16 +167,13 @@ public class OsmReader extends Activity {
 		simpleAlertDialog.show();
         
 	}
-	public void showToast(String text){
-		Toast.makeText(this, text, 10).show();
-		
-	}
 	
 	private DialogInterface.OnClickListener onSimpleAlertListener = new DialogInterface.OnClickListener(){
 		
 
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
+			// TODO Auto-generated method stub
 			// cancellazione del dialogo, accettazione
 			// auto accettazione msgTextView.setText("Something");
 		}
@@ -225,34 +201,15 @@ public class OsmReader extends Activity {
 			
 				Bundle result = data.getExtras();
 				
-				String placeToFind = result.getString("tag");
+				String tag = result.getString("tag");
 				
-				String simplePattern = "";
+				Double lat = Double.parseDouble("45.6788");
 				
-				if(placeToFind.lastIndexOf("-w-") != -1){
-					simplePattern  = placeToFind.substring(0,placeToFind.lastIndexOf("-w-"));
-				} else {
-					simplePattern  = placeToFind.substring(0,placeToFind.lastIndexOf("-n-"));
-				}
-			    
+				//String lat = result.getString("lat");
+				String lon = result.getString("lon");
 				
-				
-				String coordinates[] = OSM.osmHandler.openStreetMap.searchNode(simplePattern);
-				
-				
-				
-				// updating gps
-				gps.target.setLatitude(Double.parseDouble(coordinates[0]));
-				gps.target.setLongitude(Double.parseDouble(coordinates[1]));
-				
-				showToast( "Target: " + simplePattern + "\n" + coordinates[0] + ", " +  coordinates[1] + "\n\n" +
-				           "Location: " + "\n" + gps.location.getLatitude() + ", " + gps.location.getLongitude() +
-				           "\n\nDistance: " + gps.getHaversineDistance()	   
-				           );
-				
-				this.msgTextView.setText("Location: via Fiori Chiari \n" + "Target: " + simplePattern + 
-						   "\nDistance: " + Math.round(gps.getHaversineDistance()) + " m");
-				
+				showSimpleAlertDialog("SOMETHING","tag : " + tag + " lat: " + lat);
+			 
 		}
 		
 	}
@@ -300,12 +257,10 @@ public class OsmReader extends Activity {
 	    	
 	    	return true;
 	    case EXIT_ID:
-	    	gps.stopLocationUpdater();
 	        finish();
 	        return true;
 	    case VIEWLOG_ID:
 	    	if(OSM.osmHandler.openStreetMap != null){
-	    		
 	    		showSimpleAlertDialog("map data",OSM.osmHandler.openStreetMap.getXML() );
 		    		
 	    	} else {
@@ -329,13 +284,9 @@ public class OsmReader extends Activity {
     }
 	private void initLocation() {
 		mLocationListener = new gpsLocationListener();
-		lm = getLocationManager();
+		LocationManager lm = getLocationManager();
 		try{
 			lm.requestLocationUpdates( LocationManager.GPS_PROVIDER,0,0,mLocationListener);
-			gps.startLocationUpdater();
-		    
-			//msgTextView.setText("initial" + lm.getLastKnownLocation("gps").toString());
-			//msgTextView.setText(lm.getProviders(true).toString());
 		} catch(Exception e){
 		    showSimpleAlertDialog(LOG_TAG, e.toString());
 		}//mLocationListener = new SampleLocationListener();
@@ -343,55 +294,40 @@ public class OsmReader extends Activity {
     }
 	private int listenerupdate = 0;
 	
-	public class gpsLocationListener implements LocationListener {
-        private String[] STATUS = {"Out of order", "temporary unavailable", "available"}; 
-        
-        @Override
+	private class gpsLocationListener implements LocationListener {
+
+		@Override
 		public void onLocationChanged(Location location) {
+			// TODO Auto-generated method stub
+			if (location != null) {
 			listenerupdate++;
-        	if (location != null) {
-			
-			msgTextView.setText(listenerupdate+"Location changed : Lat: "+ location.getLatitude());
-			//showSimpleAlertDialog(LOG_TAG, listenerupdate+"Location changed : Lat: "+ location.getLatitude() );
-			/* Toast.makeText(getBaseContext(), 
+			msgTextView.setText(listenerupdate+" lat: " + location.getLatitude() + "; "+location.getLongitude());
+			Toast.makeText(getBaseContext(), 
                     "Location changed : Lat: " + location.getLatitude() + 
                     " Lng: " + location.getLongitude(), 
                     10).show();
-			*/
-			} else {
-				msgTextView.setText(listenerupdate + " null message");
 			}
 		}
 
-		
+		@Override
+		public void onProviderDisabled(String provider) {
+			// TODO Auto-generated method stub
+			
+		}
 
 		@Override
 		public void onProviderEnabled(String provider) {
-			
+			// TODO Auto-generated method stub
 			showSimpleAlertDialog(LOG_TAG, "Enabled.");
 		}
 
 		@Override
 		public void onStatusChanged(String provider, int status, Bundle extras) {
-			
-			
-			
-			Toast.makeText(getBaseContext(), 
-                    "Status : "  + STATUS[status] + "\n"+extras.toString(), 
-                    10).show();
-		}
-
-
-
-		@Override
-		public void onProviderDisabled(String provider) {
-			
+			// TODO Auto-generated method stub
 			
 		}
 		
 	};
-	
-   
 }
 
 

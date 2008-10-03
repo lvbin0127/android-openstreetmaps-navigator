@@ -3,7 +3,7 @@ package com.android.OsmNavigator;
 import java.util.ArrayList;
 
 public class Way {
-    private ArrayList<String> nd = new ArrayList<String>();
+    public ArrayList<String> nd = new ArrayList<String>();
     public ArrayList<Tag> tags = new ArrayList<Tag>();
     
     
