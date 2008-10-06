@@ -67,4 +67,24 @@ float nodes[] = {x1,y1,x2,y2 ...,xn,yn};
 == Transforming Latitude / longitude angles into pixel ==
 ----
 We use the [http://lazarus.elte.hu/~guszlev/vet/equation/dslambe.htm Equations of the Lambert projection] as explayed below
-{{math|<VAR>&alpha;</VAR>}}
+http://lazarus.elte.hu/~guszlev/vet/equation/lambsik.gif
+implementation: 
+{{{
+public NodePoint convertToXY(String lat, String lon){
+    	
+    	float phi = (float) GPS.radians(Float.parseFloat(lat));
+    	float lambda = (float) GPS.radians(Float.parseFloat(lon));
+    	float q = (float) (2*Math.sin( ((Math.PI/2) - phi)/2 ));
+    	
+    	//float x = (float) (Float.parseFloat(lat)*( mapBounds.dLatitude/canvasBounds.height)- mapBounds.minlat);
+    	//float y = (float) (Float.parseFloat(lon)*( mapBounds.dLongitude/canvasBounds.width)- mapBounds.minlon);
+    	
+    	float x = (float)(q*Math.sin(lambda));
+    	float y = (float)(q*Math.cos(lambda));
+    	
+    	//canvasBounds.width
+    	
+    	return new NodePoint(x,y);
+    	
+    }
+}}}
