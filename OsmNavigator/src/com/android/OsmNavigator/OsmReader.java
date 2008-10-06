@@ -50,9 +50,9 @@ public class OsmReader extends Activity {
 	//private static final String[] mappe = {"mappa Milano - Castello", "mappa Milano - Brera"};
 	
 	/* graphics layout */
-	Map map = null;
 	private Paint   paint = new Paint();
 	private  Path path = new Path();
+	Canvas mapCanvas  = new Canvas();
 	
 	/* GPS reading */
 	private GPS gps;
@@ -60,14 +60,17 @@ public class OsmReader extends Activity {
 	private Handler mockLocationUpdater = new Handler(){
 		
 		public void handleMessage(Message m){
-			showToast(gps.location.toString());
-			lm.setTestProviderLocation(LocationManager.GPS_PROVIDER, gps.location);
+			//showToast(gps.location.toString());
+			mLocationListener.onLocationChanged(gps.location);
+			//lm.setTestProviderLocation(LocationManager.GPS_PROVIDER, gps.location);
 		}
     }; 
     
 	private static final String LOG_TAG = "Location Service";
     private LocationListener mLocationListener;
-	
+
+	//private View map;
+	private OsmMapView osmMapView;
     /* 
 	
 	private String[][] locations = { { "Area 51", "-115.800155,37.248040" },
@@ -100,9 +103,20 @@ public class OsmReader extends Activity {
     public void onCreate(Bundle savedInstanceState) {
        
 		super.onCreate(savedInstanceState);
-		this.map = new Map(this); 
+				
+		setContentView(R.layout.main);
 		
-        setContentView(R.layout.main);
+		//RelativeLayout.LayoutParams mapLayoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        //mapLayoutParams.topMargin = 100;// android:layout_below
+        
+        //this.addContentView(map, mapLayoutParams);
+		/*try{
+        map = findViewById(R.id.MAP);
+		//setContentView(map);
+		map.setVisibility(android.view.View.INVISIBLE);//setVisibility(int)
+		} catch (Exception e){
+			
+		}
 		/* SPINNER 
         spinner = (Spinner) this.findViewById(R.id.spinner1);
         
@@ -137,12 +151,14 @@ public class OsmReader extends Activity {
         
         /* init GPS reading */
         gps = new GPS(mockLocationUpdater);
-        
-        
         initLocation();
+        
+        /* reading map view */
+        osmMapView = (OsmMapView)findViewById(R.id.MAP);
         
         
     }
+	
 	@Override
     protected void onDestroy() {
         super.onDestroy();
@@ -164,6 +180,8 @@ public class OsmReader extends Activity {
     			msgTextView.setText("Location: " + gps.location.getLatitude() + ", " + gps.location.getLongitude());
     			
     			CONTINUEbtn.setVisibility(View.INVISIBLE);
+    			osmMapView.drawOpenStreetMapNodes(OSM.osmHandler.openStreetMap);
+    			//map.setVisibility(android.view.View.VISIBLE);
     			//MapInformation.setText(OSM.osmHandler.openStreetMap.getXML());
     			//msgTextView.setText(OSM.osmHandler.openStreetMap.getXML());
     		}
@@ -251,7 +269,7 @@ public class OsmReader extends Activity {
 				           );
 				
 				this.msgTextView.setText("Location: via Fiori Chiari \n" + "Target: " + simplePattern + 
-						   "\nDistance: " + Math.round(gps.getHaversineDistance()) + " m");
+						   "\nDistance: " + gps.getSmartHaversineDistance());
 				
 		}
 		
@@ -330,6 +348,7 @@ public class OsmReader extends Activity {
 	private void initLocation() {
 		mLocationListener = new gpsLocationListener();
 		lm = getLocationManager();
+		 
 		try{
 			lm.requestLocationUpdates( LocationManager.GPS_PROVIDER,0,0,mLocationListener);
 			gps.startLocationUpdater();
@@ -338,20 +357,25 @@ public class OsmReader extends Activity {
 			//msgTextView.setText(lm.getProviders(true).toString());
 		} catch(Exception e){
 		    showSimpleAlertDialog(LOG_TAG, e.toString());
-		}//mLocationListener = new SampleLocationListener();
-        //getLocationManager().requestLocationUpdates(PROVIDER_NAME, 0, 0, mLocationListener );
+		}   //mLocationListener = new SampleLocationListener();
+            //getLocationManager().requestLocationUpdates(PROVIDER_NAME, 0, 0, mLocationListener );
     }
 	private int listenerupdate = 0;
 	
 	public class gpsLocationListener implements LocationListener {
         private String[] STATUS = {"Out of order", "temporary unavailable", "available"}; 
         
-        @Override
+       
 		public void onLocationChanged(Location location) {
 			listenerupdate++;
         	if (location != null) {
 			
 			msgTextView.setText(listenerupdate+"Location changed : Lat: "+ location.getLatitude());
+			
+			if(gps.isTarget == true){
+				// compute distance
+				msgTextView.setText("Location distance: "+ gps.getSmartHaversineDistance());
+			}
 			//showSimpleAlertDialog(LOG_TAG, listenerupdate+"Location changed : Lat: "+ location.getLatitude() );
 			/* Toast.makeText(getBaseContext(), 
                     "Location changed : Lat: " + location.getLatitude() + 

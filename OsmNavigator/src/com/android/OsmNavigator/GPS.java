@@ -9,6 +9,8 @@ public class GPS {
 	public Location location = new Location("gps");
 	public Location target = new Location("gps");
 	public static int LOCATION_UPDATED = 1;
+	public boolean isTarget = false;
+	
 	private int Radius = 6371000;
 	
 	private Thread mockLocationUpdate = null; 
@@ -36,7 +38,7 @@ public class GPS {
 		mockLocationUpdate.start();
 	}
 	public void stopLocationUpdater(){
-		Thread.currentThread().interrupt();
+		mockLocationUpdate.interrupt();//();
 	}
 	public void setActualLocation(double latitude, double longitude){
 		location.setLatitude(latitude);
@@ -44,6 +46,7 @@ public class GPS {
 	}
 	
 	public void setTargetLocation(double latitude, double longitude){
+		isTarget = true;
 		target.setLatitude(latitude);
 		target.setLongitude(longitude);
 	}
@@ -60,6 +63,17 @@ public class GPS {
    	   
    	    return Radius * c;
    	
+   }
+	
+   public String getSmartHaversineDistance(){
+	   double hd = getHaversineDistance();
+	   String shd = "";
+	   if(hd > 1000){
+		   shd = Math.round(hd/1000) + " km";
+	   } else {
+		   shd = Math.round(hd) + " m";
+	   }
+	   return shd;
    }
 	
    private double radians(double n) {
@@ -82,7 +96,7 @@ public class GPS {
             	locationUpdater.sendMessage(m);
                 
             	try { 
-                      Thread.sleep(1000); 
+                      Thread.sleep(5000); 
                  } catch (InterruptedException e) { 
                       Thread.currentThread().interrupt(); 
                  } 

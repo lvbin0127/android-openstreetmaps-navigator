@@ -8,7 +8,7 @@ import android.graphics.*;
 
 public class OpenStreetMap {
 	/* basic */
-	String minlat, minlon, maxlat, maxlon;
+	public String minlat, minlon, maxlat, maxlon;
 	String version, generator;
 	public int nodesnum = 0;
 	public int relations = 0;
