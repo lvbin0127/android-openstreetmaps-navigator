@@ -68,8 +68,12 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     	paint_node.setAntiAlias(true);
     	paint_node.setColor(Color.RED);
        
+    	paint_bounds.setStrokeWidth(0);
+    	paint_bounds.setColor(Color.YELLOW);
     }
     Paint paint_node = new Paint();
+    Paint paint_bounds = new Paint();
+    
     int updateRequested = 0;
     
     @Override protected void onDraw(Canvas canvas){
@@ -78,6 +82,13 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     		
     	  canvas.drawPoints(nodes,paint_node);
     	  //canvas.drawLine(0, 100, 100, 200, paint_node);
+    	  // draw bound rectangle
+    	  
+    	  constrainToCanvasBound(mapBounds.min);
+    	  constrainToCanvasBound(mapBounds.max);
+    	  
+    	  canvas.drawLine(mapBounds.min.xc,mapBounds.min.yc, mapBounds.max.xc, mapBounds.max.yc, paint_bounds);
+    	  /**/
     	  toastIt("\n" + mapBounds.dLongitude+ ","+     	mapBounds.dLatitude + "\n\n" + nodes[nodes.length - 2] + ","+ nodes[nodes.length - 1]);
     	  //toastIt(updateRequested + " drawn " + nodes.length + "\n"+nodes[nodes.length - 1]); 
     	}
