@@ -181,6 +181,7 @@ public class OsmReader extends Activity {
     			
     			CONTINUEbtn.setVisibility(View.INVISIBLE);
     			osmMapView.drawOpenStreetMapNodes(OSM.osmHandler.openStreetMap);
+    			osmMapView.drawOpenStreetMapWays(OSM.osmHandler.openStreetMap);
     			//map.setVisibility(android.view.View.VISIBLE);
     			//MapInformation.setText(OSM.osmHandler.openStreetMap.getXML());
     			//msgTextView.setText(OSM.osmHandler.openStreetMap.getXML());
