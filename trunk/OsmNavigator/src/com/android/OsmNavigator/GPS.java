@@ -76,7 +76,7 @@ public class GPS {
 	   return shd;
    }
 	
-   private double radians(double n) {
+   public static double radians(double n) {
   	  return n * Math.PI / 180;
    }
    
