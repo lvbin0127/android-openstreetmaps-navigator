@@ -21,6 +21,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.util.AttributeSet;
 
 import android.view.SurfaceHolder;
@@ -70,9 +71,15 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
        
     	paint_bounds.setStrokeWidth(0);
     	paint_bounds.setColor(Color.YELLOW);
+    	
+    	paint_ways.setStrokeWidth(0);
+    	paint_ways.setColor(getContext().getResources().getColor(R.color.panna));
+    	paint_ways.setAntiAlias(true);
     }
+    
     Paint paint_node = new Paint();
     Paint paint_bounds = new Paint();
+    Paint paint_ways = new Paint();
     
     int updateRequested = 0;
     
@@ -89,8 +96,24 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     	  
     	  canvas.drawLine(mapBounds.min.xc,mapBounds.min.yc, mapBounds.max.xc, mapBounds.max.yc, paint_bounds);
     	  /**/
+    	  canvas.drawLine(0,0,canvas.getWidth(),canvas.getHeight(), paint_bounds);
+    	  canvas.drawLine(0,0,320,430,paint_ways);
+    	  
+    	  Path tester = new Path();
+    	  tester.moveTo(0,0);
+    	  tester.lineTo(200, 300);
+    	  tester.lineTo(20, 50);
+    	  canvas.drawPath(tester, paint_ways);
+    	  
     	  toastIt("\n" + mapBounds.dLongitude+ ","+     	mapBounds.dLatitude + "\n\n" + nodes[nodes.length - 2] + ","+ nodes[nodes.length - 1]);
     	  //toastIt(updateRequested + " drawn " + nodes.length + "\n"+nodes[nodes.length - 1]); 
+    	  
+    	}
+    	if(ways != null){
+    		toastIt("\nways not null "+ways.length);
+    		for(int w = 0; w < ways.length; w++ ){
+    			canvas.drawPath(ways[w], paint_ways);
+    		}
     	}
     }
     public void surfaceDestroyed(SurfaceHolder holder) {
@@ -107,6 +130,7 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
    }
     
     float[] nodes;
+    Path[] ways;
     
     MapBounds mapBounds = new MapBounds();
     CanvasBounds canvasBounds = new CanvasBounds();  
@@ -169,6 +193,21 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     	     *            an OpenStreetMap instance that contains parsed osm data
     	     * 
     	     */
+    
+    public void drawOpenStreetMapWays(OpenStreetMap osm){
+    	ways = new Path[osm.ways.size()];
+    	int wayCounter = 0; 
+    	for(int i = 0; i <osm.ways.size(); i++){
+    		ways[wayCounter] = new Path();
+    		for(int j = 0; j < osm.ways.get(i).nd.size(); j++){
+    		    
+    		    ways[wayCounter].moveTo(0,0);
+    		    ways[wayCounter].lineTo(100,100);
+    		    ways[wayCounter].close();
+    		}
+    		wayCounter++;
+    	}
+    }
     public void drawOpenStreetMapNodes(OpenStreetMap osm){
     	/* constrain to boundaries */
     	constrainToMapBounds(osm.minlat, osm.minlon, osm.maxlat,osm.maxlon);
