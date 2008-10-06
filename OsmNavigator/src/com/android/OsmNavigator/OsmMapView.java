@@ -78,7 +78,8 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     		
     	  canvas.drawPoints(nodes,paint_node);
     	  //canvas.drawLine(0, 100, 100, 200, paint_node);
-    	  toastIt(updateRequested + " drawn " + nodes.length + "\n"+nodes[nodes.length - 1]); 
+    	  toastIt("\n" + mapBounds.dLongitude+ ","+     	mapBounds.dLatitude + "\n\n" + nodes[nodes.length - 2] + ","+ nodes[nodes.length - 1]);
+    	  //toastIt(updateRequested + " drawn " + nodes.length + "\n"+nodes[nodes.length - 1]); 
     	}
     }
     public void surfaceDestroyed(SurfaceHolder holder) {
@@ -100,10 +101,12 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     CanvasBounds canvasBounds = new CanvasBounds();  
     
     public void constrainToMapBounds(String minlat, String minlon, String maxlat, String maxlon){
-    	mapBounds.minlat = Double.parseDouble(minlat);
-    	mapBounds.minlon = Double.parseDouble(minlon);
-    	mapBounds.maxlat = Double.parseDouble(maxlat);
-    	mapBounds.maxlon = Double.parseDouble(maxlon);
+    	
+    	mapBounds.min = convertToXY(minlat,minlon); 
+    	mapBounds.max =	convertToXY(maxlat,maxlon);
+    	
+    	mapBounds.dLongitude = mapBounds.max.sub(mapBounds.min).x;
+    	mapBounds.dLatitude = mapBounds.max.sub(mapBounds.min).y;
     	
     	/*save SurfaceView Width / Height */
     	
@@ -112,23 +115,54 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     	canvasBounds.width = mcanvas.getWidth();
     	canvasBounds.height = mcanvas.getHeight();
     	
-    	mapBounds.dLongitude = (mapBounds.maxlon-mapBounds.minlon);
-    	mapBounds.dLatitude = (mapBounds.maxlat-mapBounds.minlat);
-    	
-    	toastIt(mapBounds.dLongitude+ ","+     	mapBounds.dLatitude);
-    	
+    	canvasBounds.autoWrap();
     }
+    public void constrainToCanvasBound(NodePoint P){
+    	if(canvasBounds.CURRENT_WRAPPER == CanvasBounds.WRAP_HEIGHT){
+    		double COEFF = canvasBounds.height/mapBounds.dLatitude;
+    		P.yc = (float)( COEFF*(P.y - mapBounds.min.y) );
+    		P.xc = (float)( (canvasBounds.width/mapBounds.dLongitude)*(P.x - mapBounds.min.x) );
+    	}
+    }
+    
+    /**
+     * Return a new nodePoint according to equations of the Lambert projection
+    	     * @param lat
+    	     *            latitude (in radians)
+    	     * @param lon 
+    	     *            longitude (in radians); 
+    	     *                      
+    	     * @return new NodePoint(x,y)
+    	     * 
+    	     */
     public NodePoint convertToXY(String lat, String lon){
-    	float x = (float) (Float.parseFloat(lat)*( mapBounds.dLatitude/canvasBounds.height)) ;
-    	float y = (float) (Float.parseFloat(lon)*( mapBounds.dLongitude/canvasBounds.width)) ;
+    	
+    	float phi = (float) GPS.radians(Float.parseFloat(lat));
+    	float lambda = (float) GPS.radians(Float.parseFloat(lon));
+    	float q = (float) (2*Math.sin( ((Math.PI/2) - phi)/2 ));
+    	
+    	//float x = (float) (Float.parseFloat(lat)*( mapBounds.dLatitude/canvasBounds.height)- mapBounds.minlat);
+    	//float y = (float) (Float.parseFloat(lon)*( mapBounds.dLongitude/canvasBounds.width)- mapBounds.minlon);
+    	
+    	float x = (float)(q*Math.sin(lambda));
+    	float y = (float)(q*Math.cos(lambda));
+    	
     	//canvasBounds.width
+    	
     	return new NodePoint(x,y);
     	
     }
+    /**
+     * Set the points array nodes called by onDraw()
+    	     * @param osm
+    	     *            an OpenStreetMap instance that contains parsed osm data
+    	     * 
+    	     */
     public void drawOpenStreetMapNodes(OpenStreetMap osm){
     	/* constrain to boundaries */
     	constrainToMapBounds(osm.minlat, osm.minlon, osm.maxlat,osm.maxlon);
     	toastIt("amount: " + osm.nodes.size());
+    	
     	try{
 	    	/*create points*/
 	    	nodes = new float[osm.nodes.size()*2];
@@ -137,11 +171,11 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
 	    	
 	    	for(int i = 0; i < osm.nodes.size(); i++){
 	    		point = convertToXY(osm.nodes.get(i).lat, osm.nodes.get(i).lon);
-	    		
+	    		constrainToCanvasBound(point);
 	    		pointer++;
-	    		nodes[pointer]   =  point.x; // pX
+	    		nodes[pointer]   =  point.xc; // pX
 	    		pointer++;
-	    		nodes[pointer] =  point.y; // pY	
+	    		nodes[pointer] =  point.yc; // pY	
 	    		
 	    	}
 	    	toastIt("utlimo pointer: " + pointer + " y:" + nodes[pointer]);
@@ -151,25 +185,49 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     	}
     }
     
-    public void addNodesToDraw(Node node){
-    	
-    }
+    
     
     class CanvasBounds{
     	int height = 0;
     	int width = 0;
-    	double widthLongitude = 0;
+    	
+    	static final int WRAP_WIDTH = 0;
+    	static final int WRAP_HEIGHT = 1;
+    	
+    	int CURRENT_WRAPPER = -1;
+    	float WRAP_COEFF = 0;
+    	
+    	void setWrap(int W){
+    		CURRENT_WRAPPER = W;
+    	}
+    	void autoWrap(){
+    		if(height >width){
+    			CURRENT_WRAPPER = WRAP_HEIGHT;
+    			
+    		} else {
+    			CURRENT_WRAPPER = WRAP_WIDTH;
+    		}
+    	}
+    	
     }
     class MapBounds{
-    	Double minlat, maxlat, minlon, maxlon;
-    	Double dLongitude, dLatitude;
+    	NodePoint max, min;
+    	float dLongitude, dLatitude;
     }
     class NodePoint{
     	float x;
     	float y;
+    	float xc; // constrained on Canvas
+    	float yc; // constrained on Canvas
     	NodePoint(float _x, float _y){
     		x = _x;
     		y = _y;
+    	}
+    	NodePoint sub(float _x, float _y){
+    		return new NodePoint(x-_x, y-_y);
+    	}
+    	NodePoint sub(NodePoint n){
+    		return new NodePoint(x-n.x,y-n.y);
     	}
     }
 }
