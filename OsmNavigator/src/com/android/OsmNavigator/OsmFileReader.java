@@ -77,10 +77,7 @@ public class OsmFileReader {
 			 } catch(IOException e){
 				 IOError =  e.getMessage();
 				 return false;
-			 } catch (Exception e){
-				 GeneralError = e.getMessage();
-				 return false;
-			 }
+			 } 
 			 
 		     return true; 
 

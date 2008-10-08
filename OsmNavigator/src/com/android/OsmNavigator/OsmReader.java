@@ -35,7 +35,7 @@ public class OsmReader extends Activity {
 	/* UI "main.xml" items */
 	private Button CONTINUEbtn;
 	private TextView msgTextView, MapInformation;
-	
+	private ImageView image;
 	//private Spinner spinner;
 	
 	private boolean mapParsed = false;
@@ -129,10 +129,11 @@ public class OsmReader extends Activity {
         
         /* END SPINNER */
         /* Background images */
-        ImageView image = (ImageView)findViewById(R.id.backgroundImage);
+		image = (ImageView)findViewById(R.id.backgroundImage);
         
         msgTextView = (TextView)findViewById(R.id.title);
         msgTextView.setText("Press LOAD MAP to begin");
+        
         
         //msgTextView.setText("loading maps...");
         
@@ -167,25 +168,25 @@ public class OsmReader extends Activity {
 	
 	private void parsingOpenStreetMap(){
 		try{
-			Toast.makeText(getBaseContext(), 
-                    "Parsing OSM map data", 
-                    20).show();
+			
     		if(OSM.parseStructure() == false){
     		  showSimpleAlertDialog("Parsing OSM data", OSM.IOError + "\n" + OSM.SAXError + "\n" + OSM.GeneralError);
     		} else {
     			//showSimpleAlertDialog("Parsing OSM data","OK");
     			
     			mapParsed = true;
-    			msgTextView.setText("Location: " + gps.location.getLatitude() + ", " + gps.location.getLongitude());
     			
     			CONTINUEbtn.setVisibility(View.INVISIBLE);
+    			image.setVisibility(View.INVISIBLE);
+    			
     			osmMapView.drawOpenStreetMapNodes(OSM.osmHandler.openStreetMap);
     			osmMapView.drawOpenStreetMapWays(OSM.osmHandler.openStreetMap);
-    			//map.setVisibility(android.view.View.VISIBLE);
-    			//MapInformation.setText(OSM.osmHandler.openStreetMap.getXML());
-    			//msgTextView.setText(OSM.osmHandler.openStreetMap.getXML());
+    			
+    			// map.setVisibility(android.view.View.VISIBLE);
+    			// MapInformation.setText(OSM.osmHandler.openStreetMap.getXML());
+    			// msgTextView.setText(OSM.osmHandler.openStreetMap.getXML());
     		}
-    		//msgTextView.setText(OSM.getXMLString());
+    		// msgTextView.setText(OSM.getXMLString());
     	} catch (Exception e){
     		msgTextView.setText("errore generico");
     		showSimpleAlertDialog("Parsing Error","LocalException: " + e.getMessage() + "\n\nSAXException: " + OSM.SAXError + "\n\nIOException: " + OSM.IOError);
