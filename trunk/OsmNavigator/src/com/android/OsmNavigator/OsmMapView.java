@@ -22,6 +22,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 
 import android.view.SurfaceHolder;
@@ -72,7 +73,9 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     	paint_bounds.setStrokeWidth(0);
     	paint_bounds.setColor(Color.YELLOW);
     	
-    	paint_ways.setStrokeWidth(0);
+    	paint_ways.setStrokeWidth(1);
+    	paint_ways.setStyle(Style.STROKE);
+    	//paint_ways.set
     	paint_ways.setColor(getContext().getResources().getColor(R.color.panna));
     	paint_ways.setAntiAlias(true);
     }
@@ -85,6 +88,12 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     
     @Override protected void onDraw(Canvas canvas){
     	updateRequested++;
+    	/*Path tester = new Path();
+  	  
+  	  tester.moveTo(0,0);
+  	  tester.lineTo(200, 300);
+  	  tester.lineTo(20, 50);
+  	  canvas.drawPath(tester, paint_ways);*/
     	if(nodes != null){
     		
     	  canvas.drawPoints(nodes,paint_node);
@@ -99,18 +108,13 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     	  canvas.drawLine(0,0,canvas.getWidth(),canvas.getHeight(), paint_bounds);
     	  canvas.drawLine(0,0,320,430,paint_ways);
     	  
-    	  Path tester = new Path();
-    	  tester.moveTo(0,0);
-    	  tester.lineTo(200, 300);
-    	  //tester.lineTo(20, 50);
-    	  canvas.drawPath(tester, paint_ways);
     	  
-    	  toastIt("\n" + mapBounds.dLongitude+ ","+     	mapBounds.dLatitude + "\n\n" + nodes[nodes.length - 2] + ","+ nodes[nodes.length - 1]);
+    	  
+    	  //toastIt("\n" + mapBounds.dLongitude+ ","+     	mapBounds.dLatitude + "\n\n" + nodes[nodes.length - 2] + ","+ nodes[nodes.length - 1]);
     	  //toastIt(updateRequested + " drawn " + nodes.length + "\n"+nodes[nodes.length - 1]); 
     	  
     	}
     	if(ways != null){
-    		toastIt("\nways not null "+ways.length);
     		for(int w = 0; w < ways.length; w++ ){
     			canvas.drawPath(ways[w], paint_ways);
     		}
@@ -196,15 +200,27 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     
     public void drawOpenStreetMapWays(OpenStreetMap osm){
     	ways = new Path[osm.ways.size()];
-    	int wayCounter = 0; 
+    	int wayCounter = 0;
+    	Node _n;
+    	NodePoint _np;
+    	Way _w;
     	for(int i = 0; i <osm.ways.size(); i++){
     		ways[wayCounter] = new Path();
-    		for(int j = 0; j < osm.ways.get(i).nd.size(); j++){
-    		    
-    		    ways[wayCounter].moveTo(0,0);
-    		    ways[wayCounter].lineTo(100,100);
-    		    ways[wayCounter].lineTo(200,0);
-    		    ways[wayCounter].close();
+    		ways[wayCounter].moveTo(0,0);
+    		
+    		_w = osm.ways.get(i);
+    		    		
+    		for(int j = 0; j < _w.nd.size(); j++){
+    			_n = osm.getNode(_w.nd.get(j));
+    			_np = convertToXY(_n.lat, _n.lon);
+				constrainToCanvasBound(_np);
+    			
+				if(j == 0){
+    				/* first node */
+    				ways[wayCounter].moveTo(_np.xc, _np.yc);
+    			} else {
+    				ways[wayCounter].lineTo(_np.xc,_np.yc);
+    			}
     		}
     		wayCounter++;
     	}
