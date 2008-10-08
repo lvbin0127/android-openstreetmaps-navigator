@@ -2,7 +2,7 @@ package com.android.OsmNavigator;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
+
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -14,7 +14,7 @@ import org.xml.sax.XMLReader;
 //import org.xml.sax.helpers.XMLReaderFactory;
 
 import android.content.Context;
-import android.widget.TextView;
+
 
 public class OsmFileReader {
 	private String xmlfile = null;
@@ -22,8 +22,9 @@ public class OsmFileReader {
 	public OsmHandler osmHandler;
 	public String IOError =  "";
 	public String SAXError = "";
+	public String GeneralError = "";
 	public Context context;
-	private TextView messageHandler;
+	//private TextView messageHandler;
 	
 	public OsmFileReader(){
 		// instantiate our handler
@@ -45,9 +46,7 @@ public class OsmFileReader {
 		}*/
 		
 	}
-	public void setMessageHandler(TextView tv){
-		messageHandler = tv;
-	}
+	
 	public String getXMLString(){
 		if(xmlInputStream != null){
 		   return xmlfile;
@@ -77,6 +76,9 @@ public class OsmFileReader {
 				 return false;
 			 } catch(IOException e){
 				 IOError =  e.getMessage();
+				 return false;
+			 } catch (Exception e){
+				 GeneralError = e.getMessage();
 				 return false;
 			 }
 			 

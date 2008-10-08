@@ -171,11 +171,10 @@ public class OsmReader extends Activity {
                     "Parsing OSM map data", 
                     20).show();
     		if(OSM.parseStructure() == false){
-    		  showSimpleAlertDialog("Parsing OSM data", OSM.IOError + "\n" + OSM.SAXError);
+    		  showSimpleAlertDialog("Parsing OSM data", OSM.IOError + "\n" + OSM.SAXError + "\n" + OSM.GeneralError);
     		} else {
     			//showSimpleAlertDialog("Parsing OSM data","OK");
-    			// show handling
-    			OSM.setMessageHandler(msgTextView);
+    			
     			mapParsed = true;
     			msgTextView.setText("Location: " + gps.location.getLatitude() + ", " + gps.location.getLongitude());
     			
