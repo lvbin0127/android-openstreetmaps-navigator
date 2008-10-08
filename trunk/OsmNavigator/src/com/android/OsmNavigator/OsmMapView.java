@@ -102,7 +102,7 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     	  Path tester = new Path();
     	  tester.moveTo(0,0);
     	  tester.lineTo(200, 300);
-    	  tester.lineTo(20, 50);
+    	  //tester.lineTo(20, 50);
     	  canvas.drawPath(tester, paint_ways);
     	  
     	  toastIt("\n" + mapBounds.dLongitude+ ","+     	mapBounds.dLatitude + "\n\n" + nodes[nodes.length - 2] + ","+ nodes[nodes.length - 1]);
@@ -203,6 +203,7 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     		    
     		    ways[wayCounter].moveTo(0,0);
     		    ways[wayCounter].lineTo(100,100);
+    		    ways[wayCounter].lineTo(200,0);
     		    ways[wayCounter].close();
     		}
     		wayCounter++;
