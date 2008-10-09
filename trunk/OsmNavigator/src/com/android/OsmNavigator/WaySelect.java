@@ -1,112 +1,124 @@
 package com.android.OsmNavigator;
 
 
-import java.util.ArrayList;
+
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
+
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
+
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class WaySelect extends Activity {
-	private TextView msgTextView, resultsSearchTag;
-	private EditText searchEditText;
-	private Button CONFIRM, BACK;
+	private TextView msgTextView;
+	private Button BACK;
 	private Bundle intentBundle;
-	private ArrayList<Integer> results;
+	//private ArrayList<Integer> results;
 	private String[] matches;
-    @Override
+	private String[] cleanupmatches;
+	
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wayselect);
         
-        CONFIRM = (Button)findViewById(R.id.ok);
         BACK = (Button)findViewById(R.id.back);
+        BACK.setOnClickListener(backListener);
         
         msgTextView = (TextView)findViewById(R.id.title);
         msgTextView.setText("Cerca nella mappa corrente");
         
-        resultsSearchTag = (TextView)findViewById(R.id.resultsSearchTag);
-        
-        
-        searchEditText = (EditText)findViewById(R.id.editSearchtag);
-        searchEditText.addTextChangedListener(onChangeWatcher);
-        
-        CONFIRM.setOnClickListener(confirmListener);
-        BACK.setOnClickListener(backListener);
-        
-        resultsSearchTag.setText("nide c");
         
         intentBundle = getIntent().getExtras();
-        resultsSearchTag.setText("Total records: " + intentBundle.getString("hashstring").split("__").length);
         
         simpleAlertDialog = new AlertDialog.Builder(this);
         
-        results = new ArrayList<Integer>();
+        
+        matches = intentBundle.getString("hashstring").split("__");
+        
+        try{
+        cleanupmatches = clearMatchesTags(matches);
+        } catch(Exception e){
+        	cleanupmatches = matches;
+        	showSimpleAlertDialog("errore",e.getMessage());
+        }
+        
+        ArrayAdapter<String>adapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_dropdown_item_1line, cleanupmatches);
+       
+        //resultsSearchTag.setText("Total records: " + matches.length);
+        
+        
+        
+        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.editAutoComplete);
+        textView.setAdapter(adapter);
+        textView.setOnItemClickListener(itemClickListener);// setOnItemSelectedListener(itemClickListener);
+        
+        
     }
-    
-    public void search(String pattern){
-    	// reset arraylist
-    	results.clear();
+    private String[] clearMatchesTags(String[] m){
+    	String[] cm = new String[m.length]; 
     	
-    	matches = intentBundle.getString("hashstring").split("__");
-    	
-    	
-    	for(int m = 0; m < matches.length; m++){
-    		if(matches[m].toLowerCase().contains( pattern.toLowerCase().trim() ) ){
-    			results.add(m);	
+    	for(int i = 0; i < m.length; i++){
+    		if(m[i].lastIndexOf("-w-") != -1){
+    		    cm[i] = m[i].substring(0,m[i].lastIndexOf("-w-"));
+    		} else if(m[i].lastIndexOf("-n-") != -1){
+    			cm[i] = m[i].substring(0,m[i].lastIndexOf("-n-"));
+    		} else {
+    			cm[i] = m[i];
     		}
     	}
-    	String resultsReport = "Currently " + results.size() + " matches";
-    	String rrp = "";
-    	if(results.size()<16 && results.size()>0){
-    	  for(int c = 0; c < results.size(); c++){
-    		  // remove tags
-    		  if(matches[results.get(c)].lastIndexOf("-w-") != -1){
-    		      rrp = matches[results.get(c)].substring(0,matches[results.get(c)].lastIndexOf("-w-"));
-    		  } else {
-    			  rrp = matches[results.get(c)].substring(0,matches[results.get(c)].lastIndexOf("-n-"));
-    		  }
-    		  resultsReport += "\n"+ rrp;
-    	  }	
-    	} 
-    	
-    	resultsSearchTag.setText(resultsReport);
+    	return cm;
     }
     
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-    	resultsSearchTag.setText("arrived somethign");
+    	//
     }
-    private View.OnClickListener confirmListener = new View.OnClickListener(){
-        public void onClick(View v) {
-        	
-        	if(results.size() == 1 ){
-	        	Bundle bundle = new Bundle();
-	            
-	        	
-	        	bundle.putString("tag", matches[results.get(0)] );
-	        	bundle.putString("lat","345667");
-	        	
-	        	Intent mIntent = new Intent();
-	        	mIntent.putExtras(bundle);
-	        	
-	        	
-	        	setResult(RESULT_OK, mIntent);
-	        	
-	            finish();
-        	} else {
-        		showSimpleAlertDialog("Attenzione","Selezionare un unico indirizzo");
-        	}
-        }
+    public void sendSearchResult(String r){
+    	try{
+    	Bundle bundle = new Bundle();
+        
+    	
+    	bundle.putString("tag", r);
+    	bundle.putString("lat","345667");
+    	
+    	Intent mIntent = new Intent();
+    	mIntent.putExtras(bundle);
+    	
+    	
+    	setResult(RESULT_OK, mIntent);
+    	 finish();}
+    	catch (Exception e){
+    		Toast.makeText(getBaseContext()," " + e.getMessage() , 20).show();
+    	}
+    }
+    private AdapterView.OnItemClickListener itemClickListener =  new AdapterView.OnItemClickListener(){
+    	
+
+
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
+			Toast.makeText(getBaseContext(),"selected " + arg0.getItemAtPosition(arg2).toString(), 20).show();
+			try{
+			   sendSearchResult(arg0.getItemAtPosition(arg2).toString());
+			} catch(Exception e){
+				Toast.makeText(getBaseContext(),"selected " + e.getMessage() , 20).show();
+			}
+		}
     };
+    
+    
     private View.OnClickListener backListener = new View.OnClickListener(){
         public void onClick(View v){
             setResult(RESULT_CANCELED);
@@ -114,34 +126,17 @@ public class WaySelect extends Activity {
         }
         
     };
-    private TextWatcher onChangeWatcher = new TextWatcher(){
-    	
-    	
-    	@Override
-    	public void afterTextChanged(Editable e){
-    		
-    		//resultsSearchTag.setText("chacged after" + );
-    		// cerca 
-    		search(e.toString());
-    	}
-		
-		@Override
-		public void beforeTextChanged(CharSequence s, int start, int count,
-				int after) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void onTextChanged(CharSequence s, int start, int before,
-				int count) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-    };
+    
     public AlertDialog.Builder simpleAlertDialog;
     
+    /**
+     * Show a custom alert dialog
+     * 
+     * @param title 
+     *   The title of our alert dialog
+     * @param 
+     *   message the message of our alert dialog
+     * */
     public void showSimpleAlertDialog(String title, String message){
 		simpleAlertDialog.setMessage(message);
 		simpleAlertDialog.setTitle(title);
@@ -155,7 +150,7 @@ public class WaySelect extends Activity {
 
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
-			// TODO Auto-generated method stub
+			
 			// cancellazione del dialogo, accettazione
 			// auto accettazione msgTextView.setText("Something");
 		}
