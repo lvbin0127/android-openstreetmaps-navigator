@@ -1,6 +1,5 @@
 package com.android.OsmNavigator;
 
-import java.util.Timer;
 
 import android.app.Activity;
 
@@ -17,9 +16,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.*;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import android.widget.*;
 import android.graphics.*;
@@ -99,38 +98,23 @@ public class OsmReader extends Activity {
 	
 	private Spinner spinner;
 	 */
+	private String[] searchResults = new String[]{"absc","daniele","guido"};
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
        
 		super.onCreate(savedInstanceState);
-				
+		try{		
 		setContentView(R.layout.main);
 		
-		//RelativeLayout.LayoutParams mapLayoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-        //mapLayoutParams.topMargin = 100;// android:layout_below
-        
-        //this.addContentView(map, mapLayoutParams);
-		/*try{
-        map = findViewById(R.id.MAP);
-		//setContentView(map);
-		map.setVisibility(android.view.View.INVISIBLE);//setVisibility(int)
-		} catch (Exception e){
+		
+		
 			
-		}
-		/* SPINNER 
-        spinner = (Spinner) this.findViewById(R.id.spinner1);
-        
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_dropdown_item);
-        
-        for (int i = 0; i < locations.length; i++)
-            adapter.add(locations[i][0]);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinner.setAdapter(adapter);
-        
-        /* END SPINNER */
+		
+		
         /* Background images */
 		image = (ImageView)findViewById(R.id.backgroundImage);
-        
+		runFadeInAnimationOn(this,image);
         msgTextView = (TextView)findViewById(R.id.title);
         msgTextView.setText("Press LOAD MAP to begin");
         
@@ -156,10 +140,17 @@ public class OsmReader extends Activity {
         
         /* reading map view */
         osmMapView = (OsmMapView)findViewById(R.id.MAP);
-        
+		} catch (Exception e){
+			Toast.makeText(this, e.getMessage(), 30).show();
+		}
         
     }
-	
+	public static Animation runFadeInAnimationOn(Activity ctx, View target) {
+		  Animation animation = AnimationUtils.loadAnimation(ctx,
+		                                                     android.R.anim.fade_in);
+		  target.startAnimation(animation);
+		  return animation;
+		}
 	@Override
     protected void onDestroy() {
         super.onDestroy();
@@ -179,8 +170,8 @@ public class OsmReader extends Activity {
     			CONTINUEbtn.setVisibility(View.INVISIBLE);
     			image.setVisibility(View.INVISIBLE);
     			
-    			osmMapView.drawOpenStreetMapNodes(OSM.osmHandler.openStreetMap);
-    			osmMapView.drawOpenStreetMapWays(OSM.osmHandler.openStreetMap);
+    			//osmMapView.drawOpenStreetMapNodes(OSM.osmHandler.openStreetMap);
+    			//osmMapView.drawOpenStreetMapWays(OSM.osmHandler.openStreetMap);
     			
     			// map.setVisibility(android.view.View.VISIBLE);
     			// MapInformation.setText(OSM.osmHandler.openStreetMap.getXML());
@@ -246,13 +237,13 @@ public class OsmReader extends Activity {
 				
 				String placeToFind = result.getString("tag");
 				
-				String simplePattern = "";
+				String simplePattern = placeToFind;
 				
-				if(placeToFind.lastIndexOf("-w-") != -1){
+				/*if(placeToFind.lastIndexOf("-w-") != -1){
 					simplePattern  = placeToFind.substring(0,placeToFind.lastIndexOf("-w-"));
-				} else {
+				} else if(){
 					simplePattern  = placeToFind.substring(0,placeToFind.lastIndexOf("-n-"));
-				}
+				}*/
 			    
 				
 				

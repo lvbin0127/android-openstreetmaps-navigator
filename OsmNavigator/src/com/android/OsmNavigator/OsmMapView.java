@@ -94,14 +94,15 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
   	  tester.lineTo(200, 300);
   	  tester.lineTo(20, 50);
   	  canvas.drawPath(tester, paint_ways);*/
+      constrainToCanvasBound(mapBounds.min);
+  	  constrainToCanvasBound(mapBounds.max);
     	if(nodes != null){
     		
     	  canvas.drawPoints(nodes,paint_node);
     	  //canvas.drawLine(0, 100, 100, 200, paint_node);
     	  // draw bound rectangle
     	  
-    	  constrainToCanvasBound(mapBounds.min);
-    	  constrainToCanvasBound(mapBounds.max);
+    	  
     	  
     	  canvas.drawLine(mapBounds.min.xc,mapBounds.min.yc, mapBounds.max.xc, mapBounds.max.yc, paint_bounds);
     	  /**/
