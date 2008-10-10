@@ -9,8 +9,9 @@ For each node, it should search for an "optimistic" subsequent node. We notice w
 Here, an explaining
 [http://www.geocities.com/jheyesjones/astar.html A* tutorial]
 == ==
-an implementation
+some implementation
 [http://code.google.com/p/a-star-algorithm-implementation/ A* implementation - C++]
-
+[http://www.yov408.com/html/tutorials.php?s=65 tutorial and code]
+== ==
 Some theorical consideration
 [http://en.wikipedia.org/wiki/A*_search_algorithm wikipedia]
