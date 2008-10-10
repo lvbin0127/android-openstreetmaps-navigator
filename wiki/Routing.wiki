@@ -1,0 +1,16 @@
+#summary Routing between nodes
+#labels Phase-Implementation
+
+= Introduction =
+----
+Some open source project uses a common algorithm to find the best way in a graph.
+For each node, it should search for an "optimistic" subsequent node. We notice which algorithm to use form a J2ME project, [http://www.getjar.com/products/8324/VGPS VGPS]
+== ==
+Here, an explaining
+[http://www.geocities.com/jheyesjones/astar.html A* tutorial]
+== ==
+an implementation
+[http://code.google.com/p/a-star-algorithm-implementation/ A* implementation - C++]
+
+Some theorical consideration
+[http://en.wikipedia.org/wiki/A*_search_algorithm wikipedia]
