@@ -8,9 +8,8 @@
 ----
 ...
 == fonts and typefaces ==
-*Note: use only in classes that impements and @Override the _onDraw(Canvas canvas)_ protected method*
-== ==
-First, decide wich ttf file (e.g., _samplefont.ttf_) to use and put it to the right place in the package
+----
+First of all, decide wich ttf file (e.g., _samplefont.ttf_) to use and put it to the right place in the package
 {{{
      OsmNavigator
      |
@@ -18,8 +17,27 @@ First, decide wich ttf file (e.g., _samplefont.ttf_) to use and put it to the ri
      |_ assets
         |_ fonts
            |_ samplefont.ttf
-
 }}}
+== ==
+=== Assign the Typeface object to TextView ===
+----
+{{{
+   int resourceId = R.id.someTextWidgetId;
+
+   TextView someTextWidget=(TextView)findViewById(resourceId);  
+   
+   Typeface font = Typeface.createFromAsset(this.getAssets(), "fonts/samplefont.ttf"); 
+        
+   someTextWidget.setTypeface(font); 
+}}}
+== ==
+=== drawing on canvas ===
+----
+*Note: use only in classes that impements and @Override the _onDraw(Canvas canvas)_ protected method*
+== ==
+
+
+
 Declare a TypeFace intance and a Paint instance to write with
 {{{
   private Typeface tFace;
