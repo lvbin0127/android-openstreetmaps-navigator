@@ -1,7 +1,7 @@
 #summary Routing between nodes
 #labels Phase-Implementation
 
-= Introduction =
+= Routing: A* algorithm =
 ----
 Some open source project uses a common algorithm to find the best way in a graph.
 For each node, it should search for an "optimistic" subsequent node. We notice which algorithm to use form a J2ME project, [http://www.getjar.com/products/8324/VGPS VGPS]
