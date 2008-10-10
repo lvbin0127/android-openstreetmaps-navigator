@@ -35,12 +35,14 @@ public final class R {
     }
     public static final class id {
         public static final int MAP=0x7f090000;
-        public static final int back=0x7f090005;
-        public static final int backgroundImage=0x7f090001;
-        public static final int editAutoComplete=0x7f090006;
-        public static final int mapinfo=0x7f090004;
-        public static final int ok=0x7f090003;
-        public static final int title=0x7f090002;
+        public static final int back=0x7f090007;
+        public static final int backgroundImage=0x7f090003;
+        public static final int editAutoComplete=0x7f090008;
+        public static final int locationDescription=0x7f090001;
+        public static final int locationInfo=0x7f090002;
+        public static final int mapinfo=0x7f090006;
+        public static final int ok=0x7f090005;
+        public static final int title=0x7f090004;
     }
     public static final class layout {
         public static final int main=0x7f030000;
