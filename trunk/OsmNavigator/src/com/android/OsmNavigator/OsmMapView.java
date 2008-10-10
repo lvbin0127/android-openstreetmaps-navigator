@@ -73,9 +73,9 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     	paint_bounds.setStrokeWidth(0);
     	paint_bounds.setColor(Color.YELLOW);
     	
-    	paint_ways.setStrokeWidth(1);
+    	paint_ways.setStrokeWidth(2);
     	paint_ways.setStyle(Style.STROKE);
-    	//paint_ways.set
+    	paint_ways.setAntiAlias(true);
     	paint_ways.setColor(getContext().getResources().getColor(R.color.panna));
     	paint_ways.setAntiAlias(true);
     }
@@ -97,7 +97,7 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
       constrainToCanvasBound(mapBounds.min);
   	  constrainToCanvasBound(mapBounds.max);
     	if(nodes != null){
-    		
+    	  canvas.translate(1,0);	
     	  canvas.drawPoints(nodes,paint_node);
     	  //canvas.drawLine(0, 100, 100, 200, paint_node);
     	  // draw bound rectangle
@@ -185,7 +185,7 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     	//float y = (float) (Float.parseFloat(lon)*( mapBounds.dLongitude/canvasBounds.width)- mapBounds.minlon);
     	
     	float x = (float)(q*Math.sin(lambda));
-    	float y = (float)(q*Math.cos(lambda));
+    	float y = -(float)(q*Math.cos(lambda));
     	
     	//canvasBounds.width
     	

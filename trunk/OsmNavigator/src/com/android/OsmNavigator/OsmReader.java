@@ -33,7 +33,7 @@ public class OsmReader extends Activity {
 	private OsmFileReader OSM;
 	/* UI "main.xml" items */
 	private Button CONTINUEbtn;
-	private TextView msgTextView, MapInformation;
+	private TextView msgTextView, locationinfo,locationDescription;
 	private ImageView image;
 	//private Spinner spinner;
 	
@@ -70,34 +70,7 @@ public class OsmReader extends Activity {
 
 	//private View map;
 	private OsmMapView osmMapView;
-    /* 
-	
-	private String[][] locations = { { "Area 51", "-115.800155,37.248040" },
-	
-	            { "Bill Gates' house", "-122.242135,47.627787" },
-	
-	            { "Shepshed Dynamo Football Grounds", "-1.286913,52.774472" },
-	
-	            { "Michael Jackson's Neverland Ranch", "-120.088012,34.745527" },
-	
-	            { "Leaning Tower of Pisa", "10.396473,43.723002" },
-	
-	            { "Airplane Graveyard", "-110.834026,32.150899" },
-	
-	            { "Grand Canyon", "-112.298641,36.142788" },
-	
-	            { "Lake Kariba", "27.990417,-17.235252" },
-	
-	            { "White House", "-77.036519,38.897605" },
-	
-	            { "World Trade Center site", "-74.012253,40.711641" },
-	
-	            { "Las Vegas Strip", "-115.162296,36.133347" } };
-	
-	 
-	
-	private Spinner spinner;
-	 */
+    
 	private String[] searchResults = new String[]{"absc","daniele","guido"};
 	
 	@Override
@@ -105,41 +78,42 @@ public class OsmReader extends Activity {
        
 		super.onCreate(savedInstanceState);
 		try{		
-		setContentView(R.layout.main);
-		
-		
-		
+			setContentView(R.layout.main);
 			
-		
-		
-        /* Background images */
-		image = (ImageView)findViewById(R.id.backgroundImage);
-		runFadeInAnimationOn(this,image);
-        msgTextView = (TextView)findViewById(R.id.title);
-        msgTextView.setText("Press LOAD MAP to begin");
-        
-        
-        //msgTextView.setText("loading maps...");
-        
-        /*MapInformation = (TextView)findViewById(R.id.mapinfo);
-        MapInformation.setVisibility(View.INVISIBLE);
-        */
-        simpleAlertDialog = new AlertDialog.Builder(this);
-        
-        // reading xml osm
-        OSM = new OsmFileReader();
-        OSM.readXMLfromResource(this);
-        
-        
-        CONTINUEbtn = (Button)findViewById(R.id.ok);
-        CONTINUEbtn.setOnClickListener( mCorkyListener);
-        
-        /* init GPS reading */
-        gps = new GPS(mockLocationUpdater);
-        initLocation();
-        
-        /* reading map view */
-        osmMapView = (OsmMapView)findViewById(R.id.MAP);
+	        /* Background images */
+			image = (ImageView)findViewById(R.id.backgroundImage);
+			runFadeInAnimationOn(this,image);
+	        msgTextView = (TextView)findViewById(R.id.title);
+	        msgTextView.setText("Press LOAD MAP to begin");
+	        
+	        
+	        //msgTextView.setText("loading maps...");
+	        locationinfo = (TextView)findViewById(R.id.locationInfo);
+	        locationDescription = (TextView)findViewById(R.id.locationDescription);
+	        
+	        Typeface font = Typeface.createFromAsset(this.getAssets(), "fonts/SEGOEUIB.TTF"); 
+	       
+	        locationinfo.setTypeface(font); 
+	        locationDescription.setTypeface(font);
+	        /*MapInformation = (TextView)findViewById(R.id.mapinfo);
+	        MapInformation.setVisibility(View.INVISIBLE);
+	        */
+	        simpleAlertDialog = new AlertDialog.Builder(this);
+	        
+	        // reading xml osm
+	        OSM = new OsmFileReader();
+	        OSM.readXMLfromResource(this);
+	        
+	        
+	        CONTINUEbtn = (Button)findViewById(R.id.ok);
+	        CONTINUEbtn.setOnClickListener( mCorkyListener);
+	        
+	        /* init GPS reading */
+	        gps = new GPS(mockLocationUpdater);
+	        initLocation();
+	        
+	        /* reading map view */
+	        osmMapView = (OsmMapView)findViewById(R.id.MAP);
 		} catch (Exception e){
 			Toast.makeText(this, e.getMessage(), 30).show();
 		}
@@ -156,22 +130,26 @@ public class OsmReader extends Activity {
         super.onDestroy();
         getLocationManager().removeUpdates(mLocationListener);
     }
-	
+	/**
+	 * Call a SAX parsing on OSM xml format and begin drawing no-zoom map 
+	 * 
+	 * */
 	private void parsingOpenStreetMap(){
 		try{
 			
     		if(OSM.parseStructure() == false){
     		  showSimpleAlertDialog("Parsing OSM data", OSM.IOError + "\n" + OSM.SAXError + "\n" + OSM.GeneralError);
     		} else {
-    			//showSimpleAlertDialog("Parsing OSM data","OK");
-    			
     			mapParsed = true;
     			
+    			/* switch visibility */
     			CONTINUEbtn.setVisibility(View.INVISIBLE);
     			image.setVisibility(View.INVISIBLE);
     			
-    			//osmMapView.drawOpenStreetMapNodes(OSM.osmHandler.openStreetMap);
-    			//osmMapView.drawOpenStreetMapWays(OSM.osmHandler.openStreetMap);
+    			/* begin drawing map*/
+    			toastIt("drawing map...");
+    			osmMapView.drawOpenStreetMapNodes(OSM.osmHandler.openStreetMap);
+    			osmMapView.drawOpenStreetMapWays(OSM.osmHandler.openStreetMap);
     			
     			// map.setVisibility(android.view.View.VISIBLE);
     			// MapInformation.setText(OSM.osmHandler.openStreetMap.getXML());
@@ -183,6 +161,7 @@ public class OsmReader extends Activity {
     		showSimpleAlertDialog("Parsing Error","LocalException: " + e.getMessage() + "\n\nSAXException: " + OSM.SAXError + "\n\nIOException: " + OSM.IOError);
     	}
 	}
+	
 	
 	/*  override method listener keycodes */
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -198,7 +177,7 @@ public class OsmReader extends Activity {
 		simpleAlertDialog.show();
         
 	}
-	public void showToast(String text){
+	public void toastIt(String text){
 		Toast.makeText(this, text, 10).show();
 		
 	}
@@ -255,7 +234,7 @@ public class OsmReader extends Activity {
 				gps.target.setLatitude(Double.parseDouble(coordinates[0]));
 				gps.target.setLongitude(Double.parseDouble(coordinates[1]));
 				
-				showToast( "Target: " + simplePattern + "\n" + coordinates[0] + ", " +  coordinates[1] + "\n\n" +
+				toastIt( "Target: " + simplePattern + "\n" + coordinates[0] + ", " +  coordinates[1] + "\n\n" +
 				           "Location: " + "\n" + gps.location.getLatitude() + ", " + gps.location.getLongitude() +
 				           "\n\nDistance: " + gps.getHaversineDistance()	   
 				           );
