@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
     
@@ -10,6 +10,25 @@
     android:layout_height="fill_parent"
     android:background="@color/verde_erba"
     />
+    <TextView android:id="@+id/locationDescription"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:text="location description"
+     android:textSize ="6pt"
+     android:textColor ="@color/nero"
+     android:layout_alignBottom = "@id/MAP"
+     android:background = "@color/verde_acido"
+    />
+    
+    <TextView android:id="@+id/locationInfo"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:text="location info"
+     android:textSize ="8pt"
+     android:textColor ="@color/panna"
+     android:layout_above = "@id/locationDescription"
+    />
+    
 <RelativeLayout  
     android:orientation="vertical"
     android:layout_width="fill_parent"
@@ -55,4 +74,4 @@
     
     
 </RelativeLayout >
-</FrameLayout>
+</RelativeLayout>
