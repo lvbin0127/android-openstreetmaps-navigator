@@ -2,7 +2,7 @@ package com.android.OsmNavigator;
 
 import java.util.ArrayList;
 
-public class Node {
+public class Node__ {
     public String id;
     public String lat;
     public String lon;
