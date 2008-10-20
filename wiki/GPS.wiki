@@ -15,7 +15,7 @@ D:\android\tools>ddms
   == ==
   === setting up a *MOCK GPS TRACKER* ===
   ----
-    * download a _.klm_ file (gps tracking), one is at [http://groups.google.com/group/android-developers/files this link, geo_sample_data.zip]
+    * download a _.klm_ file (gps tracking), here some [http://code.google.com/apis/kml/documentation/ documentation] about flm file and samples.
     * In _Dalvik Debug monitor_ go to _emulator control_; then in this tab click on _Location Controls_ -> klm -> Load Klm an browse to your klm file
     * When you need GPS, click on play button located at the bottom of this window
   == ==
@@ -87,7 +87,5 @@ D:\android\tools>ddms
 = GPS.java handles Location, distance, angles =
 ----
 GPS.java class uses Harvestine algorithm to calculate air-distances, waiting for some routing algorithm.
-
-
 
 
