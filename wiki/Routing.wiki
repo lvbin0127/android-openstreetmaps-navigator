@@ -21,3 +21,6 @@ Some theorical consideration
 ----
 Here a [http://processing.org/ Java Processing] library, the [http://www.robotacid.com/PBeta/AILibrary/Pathfinder/index.html Pathfinder Library]
 we would like to android-implement
+
+
+[http://www.tom-carden.co.uk/tag/openstreetmap/ OPENSTREETMAP implementation in Processing]
