@@ -14,4 +14,10 @@ some implementation
 [http://www.yov408.com/html/tutorials.php?s=65 tutorial and code]
 == ==
 Some theorical consideration
-[http://en.wikipedia.org/wiki/A*_search_algorithm wikipedia]
+[http://en.wikipedia.org/wiki/A*_search_algorithm wikipedia],
+[http://theory.stanford.edu/~amitp/GameProgramming/ImplementationNotes.html AI game programming]
+== ==
+= Astar: PathFinding library =
+----
+Here a [http://processing.org/ Java Processing] library, the [http://www.robotacid.com/PBeta/AILibrary/Pathfinder/index.html Pathfinder Library]
+we would like to android-implement
