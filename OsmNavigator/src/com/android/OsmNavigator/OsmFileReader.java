@@ -20,6 +20,7 @@ public class OsmFileReader {
 	private String xmlfile = null;
 	private InputStream xmlInputStream = null;
 	public OsmHandler osmHandler;
+	public OsmErrorHandler osmErrorHandler;
 	public String IOError =  "";
 	public String SAXError = "";
 	public String GeneralError = "";
@@ -29,6 +30,8 @@ public class OsmFileReader {
 	public OsmFileReader(){
 		// instantiate our handler
         osmHandler = new OsmHandler();
+        // instantiate our error handler
+        osmErrorHandler = new OsmErrorHandler();
 	}
 	
 	public void readXMLfromResource(Context _context){
@@ -66,6 +69,9 @@ public class OsmFileReader {
 	           // assign our handler
 	           xmlreader.setContentHandler(osmHandler);
 	           
+	           // assign our ErrorHandler
+	           xmlreader.setErrorHandler(osmErrorHandler);
+	           
 	           xmlInputStream = context.getResources().openRawResource(R.raw.milano);
 	           
 	           xmlreader.parse(new InputSource(xmlInputStream));
@@ -73,6 +79,7 @@ public class OsmFileReader {
 	           
 			 } catch (SAXException e) {
 				 SAXError = e.getMessage();
+				 // read someting more
 				 return false;
 			 } catch(IOException e){
 				 IOError =  e.getMessage();
