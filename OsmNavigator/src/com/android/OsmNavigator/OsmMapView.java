@@ -120,7 +120,7 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     	  //toastIt("\n" + mapBounds.dLongitude+ ","+     	mapBounds.dLatitude + "\n\n" + nodes[nodes.length - 2] + ","+ nodes[nodes.length - 1]);
     	  //toastIt(updateRequested + " drawn " + nodes.length + "\n"+nodes[nodes.length - 1]); 
     	  // draw startposition
-    	  canvas.drawPoint(paint_node);
+    	  //canvas.drawPoint(paint_node);
     	}
     	if(ways != null){
     		for(int w = 0; w < ways.length; w++ ){
