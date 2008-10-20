@@ -2,8 +2,7 @@ package com.android.OsmNavigator;
 
 import java.util.ArrayList;
 import android.graphics.*;
-
-//import org.xml.sax.Attributes;
+import com.android.OsmNavigator.PathFinding.*;
 
 
 public class OpenStreetMap {
@@ -15,10 +14,15 @@ public class OpenStreetMap {
 	ArrayList<Node> nodes = new ArrayList<Node>();
 	ArrayList<Way> ways = new ArrayList<Way>();
 	
+	/* A star algorithm */
+	Pathfinder Astar; 
+	public boolean AstarStatus = false;
+	
 	public static String separator="__";
 	
-	public void drawNodes(){
-		
+	public void setPathNodes(){
+		Astar = new Pathfinder(nodes);
+		AstarStatus = true;
 	}
 	public Node getNode(String _id){
 		for(int i = 0; i < nodes.size(); i++){
@@ -30,7 +34,7 @@ public class OpenStreetMap {
 	}
 	public String[] searchNode(String pattern){
 		String coordinates[] = new String[2];
-		// individuate origin -w- or -n-
+		// see origin -w- or -n-
 		
 		
 		Way w;

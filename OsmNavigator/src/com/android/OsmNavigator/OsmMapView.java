@@ -32,7 +32,7 @@ import android.widget.Toast;
 
 import javax.microedition.khronos.egl.*;
 import javax.microedition.khronos.opengles.*;
-
+import com.android.OsmNavigator.PathFinding.*;
 /**
  * An implementation of SurfaceView that uses the dedicated surface for
  * displaying an OpenGL animation.  This allows the animation to run in
@@ -46,6 +46,9 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     private float mAngle;
     Context context;
     
+    /**Pathfinding Implementation*/
+    Pathfinder astar;
+
     OsmMapView(Context _context) {
         super(_context);
         context = _context;
@@ -63,6 +66,9 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
         mHolder = getHolder();
         mHolder.addCallback(this);
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_GPU);
+        astar = new Pathfinder();
+        
+        toastIt("something created");
     }
     
     public void surfaceCreated(SurfaceHolder holder) {
@@ -73,9 +79,9 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     	paint_bounds.setStrokeWidth(0);
     	paint_bounds.setColor(Color.YELLOW);
     	
-    	paint_ways.setStrokeWidth(2);
+    	paint_ways.setStrokeWidth(0);
     	paint_ways.setStyle(Style.STROKE);
-    	paint_ways.setAntiAlias(true);
+    	//paint_ways.setAntiAlias(true);
     	paint_ways.setColor(getContext().getResources().getColor(R.color.panna));
     	paint_ways.setAntiAlias(true);
     }
@@ -98,7 +104,7 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
   	  constrainToCanvasBound(mapBounds.max);
     	if(nodes != null){
     	  canvas.translate(1,0);	
-    	  canvas.drawPoints(nodes,paint_node);
+    	  //canvas.drawPoints(nodes,paint_node);
     	  //canvas.drawLine(0, 100, 100, 200, paint_node);
     	  // draw bound rectangle
     	  
@@ -113,12 +119,14 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     	  
     	  //toastIt("\n" + mapBounds.dLongitude+ ","+     	mapBounds.dLatitude + "\n\n" + nodes[nodes.length - 2] + ","+ nodes[nodes.length - 1]);
     	  //toastIt(updateRequested + " drawn " + nodes.length + "\n"+nodes[nodes.length - 1]); 
-    	  
+    	  // draw startposition
+    	  canvas.drawPoint(paint_node);
     	}
     	if(ways != null){
     		for(int w = 0; w < ways.length; w++ ){
-    			canvas.drawPath(ways[w], paint_ways);
+    			//canvas.drawPath(ways[w], paint_ways);
     		}
+    		
     	}
     }
     public void surfaceDestroyed(SurfaceHolder holder) {
@@ -160,7 +168,7 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     public void constrainToCanvasBound(NodePoint P){
     	if(canvasBounds.CURRENT_WRAPPER == CanvasBounds.WRAP_HEIGHT){
     		double COEFF = canvasBounds.height/mapBounds.dLatitude;
-    		P.yc = (float)( COEFF*(P.y - mapBounds.min.y) );
+    		P.yc = canvasBounds.height-(float)( COEFF*(P.y - mapBounds.min.y) );
     		P.xc = (float)( (canvasBounds.width/mapBounds.dLongitude)*(P.x - mapBounds.min.x) );
     	}
     }
@@ -185,7 +193,7 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     	//float y = (float) (Float.parseFloat(lon)*( mapBounds.dLongitude/canvasBounds.width)- mapBounds.minlon);
     	
     	float x = (float)(q*Math.sin(lambda));
-    	float y = -(float)(q*Math.cos(lambda));
+    	float y = (float)(q*Math.cos(lambda));
     	
     	//canvasBounds.width
     	
@@ -198,6 +206,7 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     	     *            an OpenStreetMap instance that contains parsed osm data
     	     * 
     	     */
+    
     
     public void drawOpenStreetMapWays(OpenStreetMap osm){
     	ways = new Path[osm.ways.size()];
@@ -251,6 +260,7 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     	} catch(Exception e){
     		toastIt("Exception " + e.getMessage() + " " + osm.nodes.size());
     	}
+    	
     }
     
     
