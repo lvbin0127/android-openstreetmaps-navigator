@@ -2,6 +2,7 @@ package com.android.OsmNavigator;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+import com.android.OsmNavigator.PathFinding.*;
 
 public class OsmHandler extends DefaultHandler{
     
@@ -24,7 +25,7 @@ public class OsmHandler extends DefaultHandler{
 
     public void endDocument ()
     {
-    	
+    	openStreetMap.setPathNodes();
     }
     public void startElement  (String uri, String name, String qName, Attributes atts)throws SAXException{
     	if (qName.equals ("osm")){
@@ -47,6 +48,8 @@ public class OsmHandler extends DefaultHandler{
     	    node.lat = atts.getValue("lat");
     	    node.id =atts.getValue("id");
     	    node.lon = atts.getValue("lon");
+    	    node.x = Float.parseFloat(node.lon);
+    	    node.y = Float.parseFloat(node.lat);
     		return;	
     	} else if(qName.equals("relation")){
     		openStreetMap.addRelation();
