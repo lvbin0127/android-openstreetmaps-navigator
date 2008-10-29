@@ -110,10 +110,10 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     	  
     	  
     	  
-    	  canvas.drawLine(mapBounds.min.xc,mapBounds.min.yc, mapBounds.max.xc, mapBounds.max.yc, paint_bounds);
+    	  //canvas.drawLine(mapBounds.min.xc,mapBounds.min.yc, mapBounds.max.xc, mapBounds.max.yc, paint_bounds);
     	  /**/
-    	  canvas.drawLine(0,0,canvas.getWidth(),canvas.getHeight(), paint_bounds);
-    	  canvas.drawLine(0,0,320,430,paint_ways);
+    	 ///canvas.drawLine(0,0,canvas.getWidth(),canvas.getHeight(), paint_bounds);
+    	  //canvas.drawLine(0,0,320,430,paint_ways);
     	  
     	  
     	  
@@ -124,7 +124,7 @@ public class OsmMapView extends SurfaceView implements SurfaceHolder.Callback {
     	}
     	if(ways != null){
     		for(int w = 0; w < ways.length; w++ ){
-    			//canvas.drawPath(ways[w], paint_ways);
+    			canvas.drawPath(ways[w], paint_ways);
     		}
     		
     	}
